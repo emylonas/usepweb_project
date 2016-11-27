@@ -18,6 +18,7 @@
       {% block header %}
       <a href="{% url 'collections_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/header_brickstamp.png" alt="U.S. Epigraphy Project" title="U.S. Epigraphy Project home page"/></a>
     	<div id="headerlinks">
+            <div id="headerlink_color">
             <div>
                 <a href="{% url 'search_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/button_search.png" /></a>
                 <a href="{% url 'collections_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/button_collections.png" /></a>
@@ -28,6 +29,7 @@
       			<a href="{% url 'links_url' %}">Epigraphy links</a> |
       			<a href="{% url 'about_url' %}">About</a> |
       			<a href="{% url 'contact_url' %}">Contact</a>
+            </div>
             </div>
       </div>
     	{% endblock header %}
