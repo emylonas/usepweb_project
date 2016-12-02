@@ -11,8 +11,19 @@
 {% block content %}
 <script>
     $(document).ready(function(){
+        var reducedHeight = $("#description > p").height();
+        $("#description > p").css('height', 'auto');
+    var fullHeight =  $("#description > p").height();
+    if (fullHeight < 80) {
+    $("button").hide();
+    }
+    $("#description > p").height(reducedHeight);
         $("button").click(function(){
-            $("#description > p").toggle();
+            reducedHeight = $("#description > p").height();
+            $("#description > p").css('height', 'auto');
+            fullHeight =  $("#description > p").height();
+            $("#description > p").height(reducedHeight);
+            $("#description > p").animate({height: fullHeight}, 500);
         });
     });
 </script>
@@ -20,8 +31,8 @@
       <div class="Ncontainer">
       <div class="intro">
     <div id="description">
-        <button>Toggle Description</button>
         <p>{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</p>
+          <button>Expand Text</button>
     </div>
           </div>
           </div>
