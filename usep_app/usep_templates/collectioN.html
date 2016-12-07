@@ -6,13 +6,34 @@
 
 {% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %}
 
-{% block page_title %}Inscriptions from <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
+{% block page_title %}Inscriptions from &nbsp; <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
 
 {% block content %}
+<script>
+    $(document).ready(function(){
+        var reducedHeight = $("#description > p").height();
+        $("#description > p").css('height', 'auto');
+    var fullHeight =  $("#description > p").height();
+    if (fullHeight < 80) {
+    $("button").hide();
+    }
+    $("#description > p").height(reducedHeight);
+        $("button").click(function(){
+            reducedHeight = $("#description > p").height();
+            $("#description > p").css('height', 'auto');
+            fullHeight =  $("#description > p").height();
+            $("#description > p").height(reducedHeight);
+            $("#description > p").animate({height: fullHeight}, 500);
+        });
+    });
+</script>
   <div id="main">
       <div class="Ncontainer">
       <div class="intro">
-    <div id="description"><p>{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</p></div>
+    <div id="description">
+        <p>{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</p>
+          <button>Expand Text</button>
+    </div>
           </div>
           </div>
     <div id="Ncontainer">

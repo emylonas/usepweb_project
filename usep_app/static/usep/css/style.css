@@ -159,6 +159,13 @@ img {
 	color:#efeae4;
 	}
 
+#headerlink_color a:link {
+	color:#efeae4;
+}
+
+#headerlink_color a:link {
+	color:#efeae4;
+}
 
 .descriptionLink a {
     color:black;
@@ -177,7 +184,7 @@ img {
 
 
 #headerlinks a:link, a:visited {
-      color:#99827e;
+      /*color:#99827e;*/
 	}
 
 .Ncontainer a:link a:visited {
@@ -293,6 +300,8 @@ img {
 */
 
 .collection {
+	display:-webkit-flex;
+	-webkit-flex-wrap: wrap;
     display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -302,6 +311,34 @@ img {
 	min-width: 300px;
 	margin: auto;
 }
+#description > button {
+	margin-left:40%;
+	margin-right:40%;
+	text-align:center;
+	width:10em;
+	color: #99827e;
+	font-family: 'Vollkorn', serif;
+	font-size:15px;
+	color:#000020;
+	background:#efeae4;
+	border:solid 1px;
+	border-color:#000020;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+#description > button:hover{
+	background:#99827e;
+	border-color:#000020;
+	color:#e5dcd0;
+}
+#description > p {
+	text-overflow:clip;
+	overflow:hidden;
+	height:5em;
+}
+/*Description button*/
 
 .item {
 	break-inside:avoid;
@@ -378,7 +415,7 @@ img {
 }
 
 .descriptioncontainer{
-	
+
 }
 
 
