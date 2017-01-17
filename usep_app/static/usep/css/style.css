@@ -111,7 +111,7 @@ h3 {
 a:link, a:visited {
 	font-weight:normal;
 	text-decoration : none;
-    color: #000;
+    /*color: #000;*/
 	}
 
 a:hover, a:active {
@@ -167,6 +167,14 @@ img {
 	color:#efeae4;
 }
 
+#headerlink_color a:visited {
+	color: #efeae4;;
+}
+#headerlink_color a:link a:visited {
+	color: #99827e;
+}
+
+
 .descriptionLink a {
     color:black;
 }
@@ -195,6 +203,8 @@ img {
 #headerlinks a:hover,a:active {
 	color:#99827e;
 	}
+
+
 
 #content, body > h1 {
 	margin: 0 auto;
@@ -336,7 +346,21 @@ img {
 #description > p {
 	text-overflow:clip;
 	overflow:hidden;
-	height:5em;
+	height:auto;
+}
+
+#description > p.hide {
+	height: 50px;
+	background: rgba(0,0,0,1);
+	background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(239,234,228,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(100%, rgba(239,234,228,1)));
+	background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(239,234,228,1) 100%);
+	background: -o-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(239,234,228,1) 100%);
+	background: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(239,234,228,1) 100%);
+	background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(239,234,228,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#efeae4', GradientType=0 );
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 /*Description button*/
 
@@ -371,13 +395,13 @@ img {
 
 .item.right-caption > img {
     float: left;
-    margin-right: 9px;
+    margin-right: 0px;
 }
 
 .item.right-caption {
     clear:left;
     display:block;
-    max-width:300px;
+    width:380px;
     
 }
 
@@ -389,8 +413,10 @@ img {
 }
 
 .caption p{
-    width:200px;
+    width: 70%;
     float:right;
+	margin-top:0px;
+	-webkit-margin-before: 0px;
    
 }
 
@@ -475,7 +501,7 @@ h3> a:link a:visited{
 
 a.js-link, .jslink { font-weight: normal; }
 .js-info {
-	border-left: 1px solid #   7badac;
+	border-left: 1px solid #7badac;
 	margin-left: 40px;
 	padding-left: 20px;
 }
