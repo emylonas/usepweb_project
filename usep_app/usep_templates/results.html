@@ -17,12 +17,17 @@
 		width: 100%;
         margin:0px;
 	}
-    
-    #content a{
+
+    ul a{
         color:#99827e;
     }
 
+	#h3> a:link{
+		color:black;
+	}
+
 	div#results {
+		font-size:14px;
        float:right;
         padding:15px;
         background: #efeae4;
@@ -30,12 +35,17 @@
 		min-width: 500px;
          border-style: solid;
     border-width: 1px;
-    border-color:#999999; 
+    border-color:#999999;
         margin-right:-170px;
         margin-top:50px;
-        
+
 	}
-    
+
+	#results ul li {
+		padding:10px;
+		width:100%;
+	}
+
     #facetscontainer{
         padding-left:0px;
         margin-left:50px;
@@ -44,7 +54,7 @@
         display:inline;
         float:left;
     }
-    
+
 
     @media screen and (max-width:850px){
         #facetscontainer{
@@ -60,32 +70,33 @@
 
 	ul#facets {
         font-size:14px;
-       
+
 	}
-    
-    
+
+
+
     ul#facets { list-style:none; }
-   
+
 	a.none_facet {
 		color: red;
 	}
-    
 
-    
+
+
     .facet_title{
-             display:inline-block;
-/*
-        color:#7badac;
-        text-decoration:underline;
-*/
+             display:block;
     }
 </style>
 <script>
-    
+
 $(document).ready(function () {
     $("ul.facet_list").hide();
     $("li").click(function () {
         $("ul.facet_list", this).toggle();
+		if ($("#symbol", this).text() == "►")
+			$("#symbol", this).text("▼")
+		else
+			$("#symbol", this).text("►");
     });
 });</script>
 {% endblock %}
@@ -100,7 +111,44 @@ $(document).ready(function () {
 <p style="display: none;">{{querystring}}</p>
 
 
+
 {% regroup results|dictsort:"collection" by collection as collections %}
+
+<div id="results">
+
+	{% for coll in collections %}
+
+	<h3><a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a></h3>
+	<ul class="collection">
+		{% for result in coll.list %}
+
+		{% block result%}
+		<li>
+			{% if result.image_url %}
+			<img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
+			{% else %}
+			<img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+			{% endif %}
+			<a href="{{ result.url }}">{{ result.id }} </a>
+			{% if show_dates %}
+			<span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
+			{% endif %}
+			<span class="status">({{ result.status }})</span>
+			{% if result.text_genre_desc %}
+			<br/><span class="desc">{{result.text_genre_desc.0}}</span>
+			{% endif %}
+		</li>
+		{% endblock result %}
+
+
+		{% endfor %}
+	</ul>
+
+	{% empty %}
+	No Results. <a href="../">Search again...</a>
+
+	{% endfor %}
+</div>
 
 <div id="facetscontainer">
 <h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
@@ -127,41 +175,7 @@ $(document).ready(function () {
 {% endblock facets%}
 </div>
 
-<div id="results">
 
-{% for coll in collections %}
-
-	<a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a>
-	<ul class="collection">
-	{% for result in coll.list %}
-
-		{% block result%}
-		<li>
-	          {% if result.image_url %}
-	          <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
-	          {% else %}
-	          <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
-	          {% endif %}
-	          <a href="{{ result.url }}">{{ result.id }} </a>
-	          {% if show_dates %}
-	          <span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
-	          {% endif %}
-	          <span class="status">({{ result.status }})</span>
-	          {% if result.text_genre_desc %}
-	          <br/><span class="desc">{{result.text_genre_desc.0}}</span>
-	          {% endif %}
-	    </li>
-	    {% endblock result %}
-
-
-	{% endfor %}
-	</ul>
-
-{% empty %}
-No Results. <a href="../">Search again...</a>
-
-{% endfor %}
-</div>
 
 {% endblock content %}
 

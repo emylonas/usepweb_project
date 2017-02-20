@@ -1,9 +1,22 @@
 {% load vocab %}
 {% if counts %}
+<style>  .facet_title{
+	display:block;
+	width:150px;
+}
+	.facet_title h4{
+		clear:none;
+		margin:5px;
+		display:inline-block;
+	}
+	#symbol {
+		clear:none;
+		display:inline-block;
+	}
+</style>
 	<li>
-		 <div class="facet_title"><p><h4>↓    {{facet|tax}}</h4> </p> </div>
+		 <div class="facet_title"><div id="symbol">►</div><h4>{{facet|tax}}</h4> </div>
 		<ul class="facet_list">
-          
 			{% for name,count in counts %}
 				<li>
 					{% if name == "none_value" %}
