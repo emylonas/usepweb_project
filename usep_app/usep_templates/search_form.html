@@ -119,6 +119,7 @@
 	}
 
 	input[type='submit'] {
+		float:right;
          background:#efeae4;
           padding:5px;
 	margin:.5em;
@@ -139,7 +140,7 @@
         color:#e5dcd0;
     }
 #adv_button {
-    float:right;
+
     color:#000020;
     background:#efeae4;
 	margin:.5em;
@@ -232,8 +233,9 @@
 <form id="searchform" action="results" method="GET">
 	<label for="fulltext">Full Text Search: <input type="text" name="text"></input></label>
 
-	<input type="submit" value="Search"></input>
+
 	<button id="adv_button" type="button" onclick="expand(event);">Advanced Search</button>
+	<input type="submit" value="Search"></input>
 	<br>
 	<fieldset id="advanced">
 	<div id="advanced_container">
