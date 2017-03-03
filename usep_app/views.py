@@ -72,7 +72,7 @@ def collection( request, collection ):
             u'inscription_count': num,
             u'display': display_dict,
             u'flat_collection': FlatCollection.objects.get(collection_code=collection),
-            u'show_dates':False,
+            u'show_dates':True,
             }
         return data_dict
     def build_response( format, callback ):
@@ -156,7 +156,9 @@ def pub_children( request, publication ):
     data_dict = {
         u'publication_title': title,
         u'inscriptions': pub.inscription_entries,
-        u'inscription_count': pub.inscription_count, }
+        u'inscription_count': pub.inscription_count,
+        u'show_dates':True,
+    }
     ## respond
     format = request.GET.get( u'format', None )
     callback = request.GET.get( u'callback', None )
