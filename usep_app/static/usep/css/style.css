@@ -420,6 +420,14 @@ img {
    
 }
 
+.caption.no-image p{
+    width: 100%;
+    float:left;
+    margin-top:0px;
+    -webkit-margin-before: 0px;
+   
+}
+
 .status{
     font-family: 'Vollkorn', serif;
     color:#99827e;
@@ -586,10 +594,6 @@ ul.collection img {
 float: left;
 margin-right: 10px;
 height: 80px;
-}
-
-ul.collection p {
-margin-left: 50px;
 }
 
 ul.collection span.desc {

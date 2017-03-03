@@ -36,7 +36,7 @@
           // $("#description > p").slideToggle(500);
             $("button").text(function(i, text){
                 return text === "Expand" ? "Close" : "Expand";
-            })
+            });
         });
     });
 </script>
@@ -57,27 +57,7 @@
       <h2 id="{{ keylang }}">{{ language_group.display }}</h2>
       <div class="collection">
         {% for result in language_group.docs %}
-        <div class="item right-caption">
-             <h3>  <a href="{{ result.url }}">{{ result.id }} </a></h3>
-            <hr>
-          {% if result.image_url %}
-            <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="80" height="80"></img>
-            {% else %}
-            <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="80" height="80"></img>
-            {% endif %}
-        <div class="caption">
-               <p>
-            <span class="status">({{ result.status }})</span>
-            {% if result.text_genre_desc %}
-         
-                <br/><span class="desc">{{result.text_genre_desc.0}}</span> 
-            {% endif %}
-            {% if show_dates %}
-            <br/><span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
-                </p>
-            {% endif %}
-        </div>
-        </div>
+        {% include "usep_templates/inscription_result.html" %}
         {% endfor %}
        </div>
       {% endfor %}

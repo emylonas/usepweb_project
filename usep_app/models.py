@@ -746,9 +746,9 @@ class Vocab(object):
         u"status": u"Transcription Status",
         u"char": u"Special Characters",
         u"name": u"Names",
-        u"metadata": u"Metadata",
+        u"metadata": u"No Transcription",
         u"transcription": u"Fully Transcribed",
-        u"bib_only": u"Citations",
+        u"bib_only": u"Citation Only",
     }
 
     language_pairs = {
