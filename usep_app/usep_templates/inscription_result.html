@@ -1,21 +1,23 @@
 {% load vocab %}
 
 <div class="item right-caption">
-     <h3>  <a href="{{ result.url }}">{{ result.id }} </a></h3>
-    <hr />
+  <h3><a href="{{ result.url }}">{{ result.id }}</a></h3>
+  <hr />
   {% if result.image_url %}
-    <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="80" height="80"></img>
-    {% endif %}
+  <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="80" height="80"></img>
+  {% endif %}
   <div class="caption {% if not result.image_url %}no-image{% endif %}">
-         <p>
-      {% if result.text_genre_desc %}
-   
-          <br/><span class="desc">{{result.text_genre_desc.0}}</span> 
-      {% endif %}
+     <p>
+      <span class="desc {% if result.status == 'bib_only' %}bibl{% endif %}" id="{{result.id}}">
+        {% if result.text_genre_desc %}
+          {{result.text_genre_desc.0}}
+        {% endif %}
+      </span>
       {% if not result.status == 'transcription' %}<span class="status">({{ result.status|tax }})</span>{% endif %}
-      {% if show_dates %}
+      {% if show_dates and result.notBefore and result.notAfter %}
       <br/><span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
-          </p>
       {% endif %}
+
+      </p>
   </div>
 </div>

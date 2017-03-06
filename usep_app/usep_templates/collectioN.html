@@ -9,7 +9,35 @@
 {% block page_title %}Inscriptions from &nbsp; <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
 
 {% block content %}
+<script type="text/javascript" language="javascript" src="{{ saxonce_file_url }}"></script>
 <script>
+    var transformer;
+    var xipr;
+    var xml_url_pattern = "{{ xml_url_pattern }}";
+    var onSaxonLoad = function() {
+        transformer = Saxon.newXSLT20Processor(Saxon.requestXML("{{ xsl_url }}"));
+        transformer.setInitialTemplate('bibl');
+        xipr = Saxon.newXSLT20Processor(Saxon.requestXML("{{ xipr_url }}"));
+
+        $(".item .bibl").each(getCitationHTML);
+    };
+
+    function getCitationHTML(idx, node) {
+      var inscription_id = $(node).attr("id");
+      var xml_url = xml_url_pattern
+                        .replace("HOSTNAME", window.location.host)
+                        .replace("SCHEME:", window.location.protocol)
+                        .replace("INSCRIPTION_ID", inscription_id);
+
+        xml = xipr.transformToDocument(Saxon.requestXML(xml_url));
+        frag = transformer.transformToFragment(xml, document);
+        console.log(frag);
+        for (var i = 0; i < frag.children.length; i++) {
+          node.innerHTML += frag.children[i].textContent + "<br/>";
+        }
+    }
+
+
     $(document).ready(function(){
 //        $("#description > p").css('height', 'auto');
     var fullHeight =  $("#description > p").height();

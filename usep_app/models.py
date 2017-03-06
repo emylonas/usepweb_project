@@ -289,7 +289,8 @@ class DisplayInscriptionHelper( object ):
           }
         return context
 
-    def update_host( self, hostname, url ):
+    @staticmethod
+    def update_host(hostname, url):
         """ Updates url if needed.
             Allows saxonce and ajax references to work with both `library.brown.edu` and `usepigraphy.brown.edu` urls. """
         if hostname.lower() == u'usepigraphy.brown.edu':

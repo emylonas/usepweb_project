@@ -73,6 +73,10 @@ def collection( request, collection ):
             u'display': display_dict,
             u'flat_collection': FlatCollection.objects.get(collection_code=collection),
             u'show_dates':True,
+            u'xml_url_pattern':settings_app.DISPLAY_INSCRIPTION_XML_URL_PATTERN,
+            u'xsl_url': DisplayInscriptionHelper.update_host(request.get_host(), settings_app.DISPLAY_INSCRIPTION_XSL_URL),
+            u'saxonce_file_url': DisplayInscriptionHelper.update_host(request.get_host(), settings_app.DISPLAY_INSCRIPTION_SAXONCE_FILE_URL),
+            u'xipr_url': DisplayInscriptionHelper.update_host(request.get_host(), settings_app.DISPLAY_INSCRIPTION_XIPR_URL)
             }
         return data_dict
     def build_response( format, callback ):
