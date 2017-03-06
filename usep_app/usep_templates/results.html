@@ -122,15 +122,15 @@
 </style>
 <script>
 
-$(document).ready(function () {
-    $("ul.facet_list").hide();
-    $("li").click(function () {
-        $("ul.facet_list", this).toggle();
-		if ($("#symbol", this).text() == "►")
-			$("#symbol", this).text("▼")
-		else
-			$("#symbol", this).text("►");
-    });
+	$(document).ready(function () {
+		$("ul.facet_list").hide();
+		$("li").click(function () {
+			$("ul.facet_list", this).toggle();
+			if ($("#symbol", this).text() == "►")
+				$("#symbol", this).text("▼")
+			else
+				$("#symbol", this).text("►");
+		});
 });</script>
 {% endblock %}
 
