@@ -36,14 +36,43 @@
          border-style: solid;
     border-width: 1px;
     border-color:#999999;
-        margin-right:-170px;
-        margin-top:50px;
+        margin-right:-100px;
+        margin-top:0px;
 
 	}
 
 	#results ul li {
 		padding:10px;
 		width:100%;
+	}
+
+	#button a {
+		color:#000;
+		text-decoration: none;
+
+	}
+
+	#button a:hover{
+		color:#e5dcd0;
+		text-decoration: none;
+
+	}
+
+	#button:hover{
+		background:#99827e;
+		border-color:#000020;
+
+	}
+	#button {
+		background:#efeae4;
+		padding:5px;
+		margin:.5em;
+		font-size:.8em;
+		width: 2.5cm;
+		text-align: center;
+		font-family: 'Vollkorn', serif;
+		border:solid 1px;
+		border-color:#000020;
 	}
 
     #facetscontainer{
@@ -53,6 +82,10 @@
         width:20%;
         display:inline;
         float:left;
+		border-style: solid;
+		border-width: 1px;
+		border-color:#999999;
+		padding:15px;
     }
 
 
@@ -70,7 +103,7 @@
 
 	ul#facets {
         font-size:14px;
-
+		padding-left:0px;
 	}
 
 
@@ -88,7 +121,6 @@
     }
 </style>
 <script>
-
 $(document).ready(function () {
     $("ul.facet_list").hide();
     $("li").click(function () {
@@ -138,14 +170,13 @@ $(document).ready(function () {
 
 <div id="facetscontainer">
 <h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
-<a href="../">&lt; Back to search</a><br><br>
+<span id="button"><a href="../">&lt; Back to search</a></span><br><br>
 
 
 
 {% endblock results %}
 {% block facets%}
 <ul id="facets">
-<h4>{{results|length}} Total Results</h4>
 {% include "usep_templates/facet_fragment.html" with counts=facets.status facet="status"%}
 {% include "usep_templates/facet_fragment.html" with counts=facets.fake facet="fake" %}
 {% include "usep_templates/facet_fragment.html" with counts=facets.language facet="language" %}
