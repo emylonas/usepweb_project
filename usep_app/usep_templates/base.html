@@ -14,9 +14,14 @@
 
   <body>
 
+    <!-- to display message banner, a) add text between p tag, & b) change display: block to display: none -->
+    <div id="emergency_notice" style="font-size : 1.3em ; width : 100% ; background-color : #ED1C24 ; text-align : center ; color : #fff ; font-family : freight-sans-pro, Arial, sans serif ; clear : both ; display: none ;">
+        <p style="margin : 0px ; padding : 10px ; "></p>
+    </div>
+
     <div id="header">
       {% block header %}
-      <a href="{% url 'collections_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/header_brickstamp.png" alt="U.S. Epigraphy Project" title="U.S. Epigraphy Project home page"/></a>
+      <a href="{% url 'collections_url' %}"><img id="useplogo" src="{{ STATIC_URL }}usep/css/gfx/header_brickstamp.png" alt="U.S. Epigraphy Project" title="U.S. Epigraphy Project home page"/></a>
     	<div id="headerlinks">
             <div id="headerlink_color">
             <div>
