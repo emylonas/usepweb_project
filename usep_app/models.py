@@ -274,7 +274,6 @@ class DisplayInscriptionHelper( object ):
         url = url_pattern.replace( u'SCHEME', scheme )
         url = url.replace( u'HOSTNAME', hostname )
         url = url.replace( u'INSCRIPTION_ID', inscription_id )
-        log.debug( 'url, ```{}```'.format(url) )
         return url
 
     def build_context( self, hostname, custom_static_url, inscription_id, source_xml_url, xsl_url, saxonce_url, xipr_url ):
@@ -289,8 +288,7 @@ class DisplayInscriptionHelper( object ):
           }
         return context
 
-    @staticmethod
-    def update_host(hostname, url):
+    def update_host( self, hostname, url ):
         """ Updates url if needed.
             Allows saxonce and ajax references to work with both `library.brown.edu` and `usepigraphy.brown.edu` urls. """
         if hostname.lower() == u'usepigraphy.brown.edu':
@@ -747,9 +745,9 @@ class Vocab(object):
         u"status": u"Transcription Status",
         u"char": u"Special Characters",
         u"name": u"Names",
-        u"metadata": u"No Transcription",
+        u"metadata": u"Metadata",
         u"transcription": u"Fully Transcribed",
-        u"bib_only": u"Citation Only",
+        u"bib_only": u"Citations",
     }
 
     language_pairs = {

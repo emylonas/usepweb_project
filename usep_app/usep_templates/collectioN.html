@@ -6,89 +6,35 @@
 
 {% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %}
 
-{% block page_title %}Inscriptions from &nbsp; <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
+{% block page_title %}Inscriptions from <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
 
 {% block content %}
-<script type="text/javascript" language="javascript" src="{{ saxonce_file_url }}"></script>
-<script>
-    var transformer;
-    var xipr;
-    var xml_url_pattern = "{{ xml_url_pattern }}";
-    var onSaxonLoad = function() {
-        transformer = Saxon.newXSLT20Processor(Saxon.requestXML("{{ xsl_url }}"));
-        transformer.setInitialTemplate('bibl');
-        xipr = Saxon.newXSLT20Processor(Saxon.requestXML("{{ xipr_url }}"));
-
-        $(".item .bibl").each(getCitationHTML);
-    };
-
-    function getCitationHTML(idx, node) {
-      var inscription_id = $(node).attr("id");
-      var xml_url = xml_url_pattern
-                        .replace("HOSTNAME", window.location.host)
-                        .replace("SCHEME:", window.location.protocol)
-                        .replace("INSCRIPTION_ID", inscription_id);
-
-        xml = xipr.transformToDocument(Saxon.requestXML(xml_url));
-        frag = transformer.transformToFragment(xml, document);
-        console.log(frag);
-        for (var i = 0; i < frag.children.length; i++) {
-          node.innerHTML += frag.children[i].textContent + "<br/>";
-        }
-    }
-
-
-    $(document).ready(function(){
-//        $("#description > p").css('height', 'auto');
-    var fullHeight =  $("#description > p").height();
-        $("#description > p").addClass('hide');
-    if (fullHeight < 200) {
-    $("button").hide();
-        $("#description > p").removeClass('hide');
-    }
-   // $("#description > p").height(reducedHeight);
-
-        $("button").click(function(){
-            if( $("#description > p").hasClass('hide')) {
-                $("#description > p").animate({height:fullHeight},200).removeClass('hide');
-                //$("#description > p").removeClass('hide');
-            } else {
-                //$("#description > p").addClass('hide');
-                $("#description > p").animate({height:50},200).addClass('hide');
-            }
-
-            //reducedHeight = $("#description > p").height();
-//            $("#description > p").css('height', 'auto');
-            //fullHeight =  $("#description > p").height();
-           // $("#description > p").animate({height: fullHeight}, 500).toggle();
-          // $("#description > p").slideToggle(500);
-            $("button").text(function(i, text){
-                return text === "Expand" ? "Close" : "Expand";
-            });
-        });
-    });
-</script>
   <div id="main">
-      <div class="Ncontainer">
-      <div class="intro">
-          <h2>Collection Information</h2>
-          <hr>
-    <div id="description">
-        <p>{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</p>
-          <button>Expand</button>
-    </div>
-          </div>
-          </div>
-    <div id="Ncontainer">
+    <div id="description">{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</div>
+    <div id="container">
       <p>( Total: {{ inscription_count }} ) Jump to: {% for k,v in display.iteritems %}<a href="#{{ k }}">{{ v }}</a>{% if not forloop.last %} | {% endif %}{% endfor %}</p>
       {% for keylang,language_group in inscriptions.iteritems %}
       <h2 id="{{ keylang }}">{{ language_group.display }}</h2>
-      <div class="collection">
+      <ul class="collection">
         {% for result in language_group.docs %}
-        {% include "usep_templates/inscription_result.html" %}
+        <li>
+          {% if result.image_url %}
+            <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
+            {% else %}
+            <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+            {% endif %}
+            <a href="{{ result.url }}">{{ result.id }} </a>
+            <span class="status">({{ result.status }})</span>
+            {% if result.text_genre_desc %}
+            <br/><span class="desc">{{result.text_genre_desc.0}}</span>
+            {% endif %}
+            {% if show_dates %}
+            <br/><span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
+            {% endif %}
+        </li>
         {% endfor %}
-       </div>
+      </ul>
       {% endfor %}
-   
+    </div>
   </div>
 {% endblock content %}

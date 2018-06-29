@@ -24,14 +24,27 @@
 
 {% block content %}
   <div id="main">
-    <div id="Ncontainer">
+    <div id="container">
       <p>( count: {{ inscription_count }} )</p>
-      <div class="collection">
+      <ul class="collection">
         {% for member in inscriptions %}
-        {% include "usep_templates/inscription_result.html" with result=member %}
+        <li>
+            {% if member.image_url %}
+            <img class="thumb" src="{{ member.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
+            {% else %}
+            <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+            {% endif %}
+            <a href="{{ member.url }}">{{ member.id }} </a>
+            <span class="status">({{ member.status }})</span>
+            {% if member.text_genre_desc %}
+            <br/><span class="desc">{{member.text_genre_desc.0}}</span>
+            {% endif %}
+            {% if show_dates %}
+            <br/><span class="date">(Between {{member.notBefore|era}} and {{member.notAfter|era}})</span>
+            {% endif %}
+        </li>
         {% endfor %}
       </ul>
     </div>
-
   </div>
 {% endblock content %}

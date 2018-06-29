@@ -8,129 +8,34 @@
 {% block in_page_css%}
 <style>
 	#pagetitle {
-		text-align: center;
-		width: 100%;
+		text-align: left;
+		margin-left: 3cm;
+		width: initial;
 	}
 
 	#content {
+		margin-left: 3.5cm;
 		font-size: 1.2em;
-		width: 100%;
-        margin:0px;
-	}
-
-    ul a{
-        color:#99827e;
-    }
-
-	#h3> a:link{
-		color:black;
+		width: 80%;
+		min-width: 800px;
 	}
 
 	div#results {
-		font-size:14px;
-       float:right;
-        padding:15px;
-        background: #efeae4;
-		width: 75%;
+		width: 70%;
 		min-width: 500px;
-         border-style: solid;
-    border-width: 1px;
-    border-color:#999999;
-        margin-right:-100px;
-        margin-top:0px;
-
+		float: left;
 	}
-
-	#results ul li {
-		padding:10px;
-		width:100%;
-	}
-
-	#button a {
-		color:#000;
-		text-decoration: none;
-
-	}
-
-	#button a:hover{
-		color:#e5dcd0;
-		text-decoration: none;
-
-	}
-
-	#button:hover{
-		background:#99827e;
-		border-color:#000020;
-
-	}
-	#button {
-		background:#efeae4;
-		padding:5px;
-		margin:.5em;
-		font-size:.8em;
-		width: 2.5cm;
-		text-align: center;
-		font-family: 'Vollkorn', serif;
-		border:solid 1px;
-		border-color:#000020;
-	}
-
-    #facetscontainer{
-        padding-left:0px;
-        margin-left:50px;
-        max-width:200px;
-        width:20%;
-        display:inline;
-        float:left;
-		border-style: solid;
-		border-width: 1px;
-		border-color:#999999;
-		padding:15px;
-    }
-
-
-    @media screen and (max-width:850px){
-        #facetscontainer{
-            display:none;
-        }
-
-        div#results{
-            float:inherit;
-            width:90%;
-            margin: 0px;
-        }
-    }
 
 	ul#facets {
-        font-size:14px;
-		padding-left:0px;
+		width: 20%;
+		float: right;
+		min-width: 200px;
 	}
-
-
-
-    ul#facets { list-style:none; }
 
 	a.none_facet {
 		color: red;
 	}
-
-
-
-    .facet_title{
-             display:block;
-    }
 </style>
-<script>
-$(document).ready(function () {
-    $("ul.facet_list").hide();
-    $("li").click(function () {
-        $("ul.facet_list", this).toggle();
-		if ($("#symbol", this).text() == "►")
-			$("#symbol", this).text("▼");
-		else
-			$("#symbol", this).text("►");
-    });
-});</script>
 {% endblock %}
 
 {% block content%}
@@ -143,53 +48,79 @@ $(document).ready(function () {
 <p style="display: none;">{{querystring}}</p>
 
 
-
 {% regroup results|dictsort:"collection" by collection as collections %}
 
+<h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
+<a href="../">&lt; Back to search</a><br><br>
 <div id="results">
 
-	{% for coll in collections %}
+{% for coll in collections %}
 
-	<h3><a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a></h3>
+	<a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a>
 	<ul class="collection">
-		{% for result in coll.list %}
+	{% for result in coll.list %}
 
 		{% block result%}
-        {% include "usep_templates/inscription_result.html" %}
-		{% endblock result %}
+		<li>
+	          {% if result.image_url %}
+	          <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
+	          {% else %}
+	          <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+	          {% endif %}
+	          <a href="{{ result.url }}">{{ result.id }} </a>
+	          {% if show_dates %}
+	          <span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
+	          {% endif %}
+	          <span class="status">({{ result.status }})</span>
+	          {% if result.text_genre_desc %}
+	          <br/><span class="desc">{{result.text_genre_desc.0}}</span>
+	          {% endif %}
+	    </li>
+	    {% endblock result %}
 
-
-		{% endfor %}
-	</ul>
-
-	{% empty %}
-	No Results. <a href="../">Search again...</a>
 
 	{% endfor %}
+	</ul>
+
+{% empty %}
+No Results. <a href="../">Search again...</a>
+
+{% endfor %}
 </div>
-
-<div id="facetscontainer">
-<h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
-<span id="button"><a href="../">&lt; Back to search</a></span><br><br>
-
-
 
 {% endblock results %}
 {% block facets%}
 <ul id="facets">
-{% include "usep_templates/facet_fragment.html" with counts=facets.status facet="status"%}
-{% include "usep_templates/facet_fragment.html" with counts=facets.fake facet="fake" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.language facet="language" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.text_genre facet="text_genre" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.object_type facet="object_type" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.material facet="material" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.condition facet="condition" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.writing facet="writing" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.char facet="char" %}
-{% include "usep_templates/facet_fragment.html" with counts=facets.name facet="name" %}
+<h4>{{results|length}} Total Results</h4>
+{% for facet,counts in facets.items %}
+{% block facet %}
+{% if counts %}
+	<li>
+		<h4>{{facet|tax}}</h4>
+		<ul class="facet_list">
+			{% for name,count in counts %}
+				<li>
+					{% if name == "none_value" %}
+					<a class="none_facet" href="{{url}}&amp;facet_{{facet}}={{name}}">
+						No Value ({{count}})
+					</a>
+					{% else %}
+					<a href="{{url}}&amp;facet_{{facet}}={{name}}">
+						{{name|tax}} ({{count}})
+					</a>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	</li>
+{% endif %}
+{% endblock facet %}
+
+{% endfor %}
 </ul>
 
 {% endblock facets%}
-</div>
+
 
 {% endblock content %}
+
