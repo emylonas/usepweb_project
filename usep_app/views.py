@@ -41,6 +41,7 @@ def collections( request ):
       'search_url': reverse( 'search_url' ), 'collections_url': reverse( 'search_url' ), 'publications_url': reverse( 'publications_url' ),
       'texts_url': reverse( 'texts_url' ), 'links_url': reverse( 'links_url' ), 'about_url': reverse( 'about_url' ), 'contact_url': reverse( 'contact_url' ),
     }
+    log.debug( 'data_dict, ```%s```' % pprint.pformat(data_dict)[0:5000] )
     return data_dict
   def build_response( format, callback ):
     if format == 'json':
@@ -49,7 +50,6 @@ def collections( request ):
         output = '%s(%s)' % ( callback, output )
       return HttpResponse( output, content_type = 'application/javascript; charset=utf-8' )
     else:
-
       return render( request, 'usep_templates/collectionS.html', data_dict )
   ## work ##
   data_dict = prepare_data()
@@ -86,7 +86,7 @@ def collection( request, collection ):
     ## work ##
     log.debug( 'starting collection()' )
     data_dict = prepare_data()
-    log.debug( 'data_dict, ```{}```'.format(pprint.pformat(data_dict)) )
+    log.debug( 'data_dict, ```{}```'.format(pprint.pformat(data_dict))[0:1000] )
     format = request.GET.get( u'format', None )
     callback = request.GET.get( u'callback', None )
     response = build_response( format, callback )
