@@ -30,6 +30,8 @@ urlpatterns = patterns('',
     url( r'^usep/search/$', 'usep_app.search.search_form', name='search_url'),
     url( r'^usep/search/results/$', 'usep_app.search.results', name='search_results_url'),
 
+    url( r'^usep/error_check/$', 'usep_app.views.error_check', name='error_check_url' ),  # only generates error if DEBUG == True
+
     url( r'^usep/$',  RedirectView.as_view(pattern_name='collections_url') ),
 
     )
