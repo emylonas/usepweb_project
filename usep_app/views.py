@@ -11,14 +11,30 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from usep_app.libs.version_helper import Versioner
+
 
 log = logging.getLogger(__name__)
+versioner = Versioner()
 
 
-def hi( request ):
-    """ Returns simplest response. """
-    now = datetime.datetime.now()
-    return HttpResponse( '<p>hi</p> <p>( %s )</p>' % now )
+# def hi( request ):
+#     """ Returns simplest response. """
+#     now = datetime.datetime.now()
+#     return HttpResponse( '<p>hi</p> <p>( %s )</p>' % now )
+
+
+def info( request ):
+    """ Displays branch and commit for easy comparison between localdev, dev, and production web-apps. """
+    rq_now = datetime.datetime.now()
+    commit = versioner.get_commit()
+    branch = versioner.get_branch()
+    info_txt = commit.replace( 'commit', branch )
+    resp_now = datetime.datetime.now()
+    taken = resp_now - rq_now
+    context_dct = versioner.make_context( request, rq_now, info_txt, taken )
+    output = json.dumps( context_dct, sort_keys=True, indent=2 )
+    return HttpResponse( output, content_type='application/json; charset=utf-8' )
 
 
 def coming( request ):
