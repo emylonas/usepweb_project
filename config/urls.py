@@ -8,14 +8,6 @@ from django.views.generic import RedirectView
 
 admin.autodiscover()
 
-# urlpatterns = patterns('',
-
-#     url( r'^usep/admin/', include(admin.site.urls) ),  # eg host/project_x/admin/
-
-#     url( r'^usep/', include('usep_app.urls_app') ),  # eg host/project_x/anything/
-
-# )
-
 
 urlpatterns = patterns('',
 
