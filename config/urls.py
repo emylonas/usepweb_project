@@ -13,7 +13,8 @@ urlpatterns = patterns('',
 
     url( r'^usep/admin/', include(admin.site.urls) ),  # eg host/project_x/admin/
 
-    url( r'^usep/info/$',  'usep_app.views.hi', name='info_url' ),
+    # url( r'^usep/info/$',  'usep_app.views.hi', name='info_url' ),
+    url( r'^usep/info/$',  'usep_app.views.info', name='info_url' ),
 
     url( r'^usep/collections/$',  'usep_app.views.collections', name='collections_url' ),
     url( r'^usep/collections/(?P<collection>[^/]+)/$',  'usep_app.views.collection', name='collection_url' ),
