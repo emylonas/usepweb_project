@@ -31,6 +31,14 @@ def info( request ):
     return HttpResponse( output, content_type='application/json; charset=utf-8' )
 
 
+def error_check( request ):
+    """ For checking that admins receive error-emails. """
+    if project_settings.DEBUG == True:
+        1/0
+    else:
+        return HttpResponseNotFound( '<div>404 / Not Found</div>' )
+
+
 def collections( request ):
   """Displays list of collections by Region."""
   log.debug( 'starting collections()' )
