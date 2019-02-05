@@ -18,12 +18,6 @@ log = logging.getLogger(__name__)
 versioner = Versioner()
 
 
-# def hi( request ):
-#     """ Returns simplest response. """
-#     now = datetime.datetime.now()
-#     return HttpResponse( '<p>hi</p> <p>( %s )</p>' % now )
-
-
 def info( request ):
     """ Displays branch and commit for easy comparison between localdev, dev, and production web-apps. """
     rq_now = datetime.datetime.now()
@@ -35,11 +29,6 @@ def info( request ):
     context_dct = versioner.make_context( request, rq_now, info_txt, taken )
     output = json.dumps( context_dct, sort_keys=True, indent=2 )
     return HttpResponse( output, content_type='application/json; charset=utf-8' )
-
-
-def coming( request ):
-    """ Stub view. """
-    return HttpResponse( '<p>coming</p>')
 
 
 def collections( request ):
