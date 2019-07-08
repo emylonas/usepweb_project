@@ -7,7 +7,16 @@
 {% block list_of_states %}
   <div id="listofstates">
     {% for code in region_codes %}
+      {%if "ITA" in code %}
+      <span ><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} <span style="color:#4b7975">|</span> {% endif %}
+      {% endif %}
+    {% endfor %}
+
+     {% for code in region_codes %}
+         {%if "ITA" not in code %}
       <span><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} | {% endif %}
+      {% endif %}
+
     {% endfor %}
   </div>
 {% endblock list_of_states %}
@@ -33,10 +42,7 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 	<div class="intro">
   <div id="map">
     <p>
-      <iframe width="350" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://batchgeo.com/map/15a95237b77fadbd7161115646e676e0" frameborder="0" width="100%" height="3000" style="border:3px solid #999;border-radius:5px;"></iframe>
-    </p>
-    <p>
-      <small>View <a href="http://batchgeo.com/map/15a95237b77fadbd7161115646e676e0">US Epigraphy Collections</a> in a full screen map</small>
+        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1eoaaaDmkJRXf8MJvnFPg92j89mQTXvFD" width="350" height="250"></iframe>
     </p>
   </div>
 	
@@ -48,7 +54,7 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
     {% regroup all_collections_dictionaries by region_name as region_list %}  {% comment %} note: no 'end_regroup' {% endcomment %}
 
     {% for region_name in region_list %}
-
+ {%if "ITA" in region_name.list.0.region_code %}
       {% comment %} ## Region-name with anchor ## {% endcomment %}
       {% for item in region_name.list %}
         {% if forloop.first %}
@@ -74,7 +80,39 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
       {% endfor %}
 </div>
 	  </div>
+       {% endif %}
     {% endfor %}
+
+       {% for region_name in region_list %}
+ {%if "ITA" not in region_name.list.0.region_code %}
+      {% comment %} ## Region-name with anchor ## {% endcomment %}
+      {% for item in region_name.list %}
+        {% if forloop.first %}
+        <div class="subregion">
+          <a name="{{ item.region_code|lower }}">
+        {% endif %}
+      {% endfor %}
+            <h2>{{ region_name.grouper }}</h2>
+          </a>
+      <hr>
+<div class="descriptioncontainer">
+      {% comment %} ## Collections ## {% endcomment %}
+      {% for item in region_name.list %}
+        <p class="description"> 
+        <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
+    <div id="address">
+          <a target="_blank" href="{{ item.collection_url }}">{{ item.collection_name }}<br/>{{ item.collection_address }}</a>
+        </div>
+          <div class="js-info">
+            <p>{{ item.collection_description|safe }}</p>
+          </div>
+        </p>
+      {% endfor %}
+</div>
+    </div>
+       {% endif %}
+    {% endfor %}
+
 
     <!-- end region output -->
 
