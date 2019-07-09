@@ -7,7 +7,17 @@
 {% block list_of_states %}
   <div id="listofstates">
     {% for code in region_codes %}
+         {%if "ITA" in code %}
+      <span ><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} <span style="color:#4b7975">|</span> {% endif %}
+      {% endif %}
+
+    {% endfor %}
+
+        {% for code in region_codes %}
+         {%if "ITA" not in code %}
       <span><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} | {% endif %}
+      {% endif %}
+
     {% endfor %}
   </div>
 {% endblock list_of_states %}
