@@ -5,20 +5,27 @@
 {% block page_title %}Collections of Greek and Latin Inscriptions in the USA{% endblock page_title %}
 
 {% block list_of_states %}
+
+<!-- this will break when more countries than italy are added -->
   <div id="listofstates">
-    {% for code in region_codes %}
-         {%if "ITA" in code %}
-      <span ><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} <span style="color:#4b7975">|</span> {% endif %}
-      {% endif %}
-
-    {% endfor %}
-
+    <div id="listrow1">
+      USA:
         {% for code in region_codes %}
          {%if "ITA" not in code %}
       <span><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} | {% endif %}
       {% endif %}
 
     {% endfor %}
+  </div>
+  <div id="listrow2">
+    OTHER:
+    {% for code in region_codes %}
+         {%if "ITA" in code %}
+      <span ><a href="#{{ code|lower }}">{{ code }}</a></span>{% if not forloop.last %} {% endif %}
+      {% endif %}
+
+    {% endfor %}
+  </div>
   </div>
 {% endblock list_of_states %}
 
@@ -37,7 +44,8 @@
 
     {% regroup all_collections_dictionaries by region_name as region_list %}  {% comment %} note: no 'end_regroup' {% endcomment %}
 
-
+      <h1>Italy</h1>
+      <hr>
      {% for region_name in region_list %}
 
       {%if "ITA" in region_name.list.0.region_code %}
@@ -69,6 +77,9 @@
     {% endif %}
 
         {% endfor %}
+
+             <h1>USA</h1>
+      <hr>
 
     {% for region_name in region_list %}
 
