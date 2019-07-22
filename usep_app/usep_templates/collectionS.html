@@ -8,7 +8,7 @@
 
 <!-- this will break when more countries than italy are added -->
   <div id="listofstates">
-    <div id="listrow1">
+    <div id="listrow1" style="text-align:left; padding-left:1em;">
       USA:
         {% for code in region_codes %}
          {%if "ITA" not in code %}
@@ -17,7 +17,7 @@
 
     {% endfor %}
   </div>
-  <div id="listrow2" style="text-align:left;">
+  <div id="listrow2" style="text-align:left;padding-left:1em;">
     OTHER:
     {% for code in region_codes %}
          {%if "ITA" in code %}
