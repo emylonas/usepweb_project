@@ -289,7 +289,7 @@ class DisplayInscriptionHelper( object ):
             Note, eventually the https replacement may have to be removed. """
         if hostname.lower() == u'usepigraphy.brown.edu':
             url = url.replace( 'library.brown.edu', 'usepigraphy.brown.edu' )
-            url = url.replace( 'https', 'http' )
+            # url = url.replace( 'https', 'http' )
         return url
 
     # def update_host( self, hostname, url ):
