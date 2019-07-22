@@ -236,6 +236,7 @@ class Collection(object):
             u'wt': u'json',
             u'indent': u'on', }
         r = requests.get( settings_app.SOLR_URL_BASE, params=payload )
+        log.debug( 'solr url, ```%s```' % r.url )
         d = json.loads( r.content.decode(u'utf-8', u'replace') )
         sorted_doc_list = sorted( d[u'response'][u'docs'], key=id_sort )  # sorts the doc-list on dict key 'msid_idno'
         # log.debug( 'sorted_doc_list, ```{}```'.format(pprint.pformat(sorted_doc_list)) )
