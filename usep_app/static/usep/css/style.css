@@ -293,11 +293,14 @@ img {
 .region {
 	column-width:400px;
 	column-gap: 0;
+	padding-top:20px;
 }
 
 .subregion {
 	break-inside:avoid;
-	margin: 20px;
+	margin-bottom: 20px;
+	margin-right:20px;
+	margin-left:20px;
 	padding: 20px;
 	min-width: 300px;
 	max-width: 400px;
