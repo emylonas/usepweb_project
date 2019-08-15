@@ -35,6 +35,7 @@
 
 {% block content %}
 
+
 <div class="Scontainer">
  
  
@@ -63,14 +64,20 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 
     {% regroup all_collections_dictionaries by region_name as region_list %}  {% comment %} note: no 'end_regroup' {% endcomment %}
 
+
     {% for region_name in region_list %}
+
  {%if "ITA" in region_name.list.0.region_code %}
+
+
       {% comment %} ## Region-name with anchor ## {% endcomment %}
       {% for item in region_name.list %}
+
         {% if forloop.first %}
 	  		<div class="subregion">
           <a name="{{ item.region_code|lower }}">
         {% endif %}
+      
       {% endfor %}
             <h2>{{ region_name.grouper }}</h2>
           </a>
@@ -118,9 +125,11 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
           </div>
         </p>
       {% endfor %}
+
 </div>
     </div>
        {% endif %}
+
     {% endfor %}
 
 

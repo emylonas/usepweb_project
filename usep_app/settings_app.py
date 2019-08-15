@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 import os
 
 
+DOCUMENTATION_URL = u'https://github.com/Brown-University-Library/usepweb_project/blob/master/README.md'
+
 LOGIN_URL = unicode( os.environ['USEPWEB__LOGIN_URL'] )
 
 SOLR_URL_BASE = unicode( os.environ['USEPWEB__SOLR_URL_BASE'] )

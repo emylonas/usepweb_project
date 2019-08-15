@@ -236,6 +236,7 @@ class Collection(object):
             u'wt': u'json',
             u'indent': u'on', }
         r = requests.get( settings_app.SOLR_URL_BASE, params=payload )
+        log.debug( 'solr url, ```%s```' % r.url )
         d = json.loads( r.content.decode(u'utf-8', u'replace') )
         sorted_doc_list = sorted( d[u'response'][u'docs'], key=id_sort )  # sorts the doc-list on dict key 'msid_idno'
         # log.debug( 'sorted_doc_list, ```{}```'.format(pprint.pformat(sorted_doc_list)) )
@@ -259,17 +260,9 @@ class Collection(object):
 class DisplayInscriptionHelper( object ):
     """ Helper for views.display_inscription() """
 
-    # def build_custom_static_url( self, project_static_url, hostname ):
-    #     """ Updates settings_PROJECT STATIC_URL if needed.
-    #         Returns url.
-    #         """
-    #     custom_static_url = project_static_url
-    #     if hostname.lower() == u'usepigraphy.brown.edu':
-    #       custom_static_url = custom_static_url.replace( 'library.brown.edu', 'usepigraphy.brown.edu' )  # so js saxon-ce works as expected
-    #     return custom_static_url
-
     def build_source_xml_url( self, url_pattern, is_secure, hostname, inscription_id ):
-        """ Returns url to inscription xml. """
+        """ Returns url to inscription xml.
+            Called by views.display_inscription() """
         scheme = u'https' if ( is_secure == True ) else u'http'
         url = url_pattern.replace( u'SCHEME', scheme )
         url = url.replace( u'HOSTNAME', hostname )
@@ -277,7 +270,8 @@ class DisplayInscriptionHelper( object ):
         return url
 
     def build_context( self, hostname, custom_static_url, inscription_id, source_xml_url, xsl_url, saxonce_url, xipr_url ):
-        """ Returns context dict. """
+        """ Returns context dict.
+            Called by views.display_inscription() """
         context = {
           u'custom_static_url': self.update_host( hostname, custom_static_url ),
           u'inscription_id': inscription_id,
@@ -290,48 +284,23 @@ class DisplayInscriptionHelper( object ):
 
     def update_host( self, hostname, url ):
         """ Updates url if needed.
-            Allows saxonce and ajax references to work with both `library.brown.edu` and `usepigraphy.brown.edu` urls. """
+            Called by build_context()
+            Allows saxonce and ajax references to work with both `library.brown.edu` and `usepigraphy.brown.edu` urls.
+            Note, eventually the https replacement may have to be removed. """
         if hostname.lower() == u'usepigraphy.brown.edu':
             url = url.replace( 'library.brown.edu', 'usepigraphy.brown.edu' )
+            # url = url.replace( 'https', 'http' )
         return url
+
+    # def update_host( self, hostname, url ):
+    #     """ Updates url if needed.
+    #         Allows saxonce and ajax references to work with both `library.brown.edu` and `usepigraphy.brown.edu` urls. """
+    #     if hostname.lower() == u'usepigraphy.brown.edu':
+    #         url = url.replace( 'library.brown.edu', 'usepigraphy.brown.edu' )
+    #     return url
 
     # end class DisplayInscriptionHelper()
 
-
-# class DisplayInscriptionHelper( object ):
-#     """ Helper for views.display_inscription() """
-
-#     def build_custom_static_url( self, project_static_url, hostname ):
-#         """ Updates settings_PROJECT STATIC_URL if needed.
-#             Returns url.
-#             """
-#         custom_static_url = project_static_url
-#         if hostname.lower() == u'usepigraphy.brown.edu':
-#           custom_static_url = custom_static_url.replace( 'library.brown.edu', 'usepigraphy.brown.edu' )  # so js saxon-ce works as expected
-#         return custom_static_url
-
-#     def build_source_xml_url( self, url_pattern, is_secure, hostname, inscription_id ):
-#         """ Returns url to inscription xml. """
-#         scheme = u'https' if ( is_secure == True ) else u'http'
-#         url = url_pattern.replace( u'SCHEME', scheme )
-#         url = url.replace( u'HOSTNAME', hostname )
-#         url = url.replace( u'INSCRIPTION_ID', inscription_id )
-#         return url
-
-#     def build_context( self, custom_static_url, inscription_id, source_xml_url, xsl_url, saxonce_url, xipr_url ):
-#         """ Returns context dict. """
-
-#         context = {
-#           u'custom_static_url': custom_static_url,
-#           u'inscription_id': inscription_id,
-#           u'source_xml_url': source_xml_url,
-#           u'xsl_url': xsl_url,
-#           u'saxonce_file_url': saxonce_url,
-#           u'xipr_url': xipr_url
-#           }
-#         return context
-
-#   # end class DisplayInscriptionHelper()
 
 class Publication(object):
 
