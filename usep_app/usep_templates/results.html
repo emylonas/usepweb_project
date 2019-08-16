@@ -8,34 +8,97 @@
 {% block in_page_css%}
 <style>
 	#pagetitle {
-		text-align: left;
-		margin-left: 3cm;
-		width: initial;
+		text-align: center;
+		width: 100%;
 	}
 
 	#content {
-		margin-left: 3.5cm;
 		font-size: 1.2em;
-		width: 80%;
-		min-width: 800px;
+		width: 100%;
+        margin:0px;
+	}
+
+    ul a{
+        color:#99827e;
+    }
+
+	#h3> a:link{
+		color:black;
 	}
 
 	div#results {
-		width: 70%;
+		font-size:14px;
+       float:right;
+        padding:15px;
+        background: #efeae4;
+		width: 75%;
 		min-width: 500px;
-		float: left;
+         border-style: solid;
+    border-width: 1px;
+    border-color:#999999;
+        margin-right:-170px;
+        margin-top:50px;
+
 	}
 
-	ul#facets {
-		width: 20%;
-		float: right;
-		min-width: 200px;
+	#results ul li {
+		padding:10px;
+		width:100%;
 	}
+
+    #facetscontainer{
+        padding-left:0px;
+        margin-left:50px;
+        max-width:200px;
+        width:20%;
+        display:inline;
+        float:left;
+    }
+
+
+    @media screen and (max-width:850px){
+        #facetscontainer{
+            display:none;
+        }
+
+        div#results{
+            float:inherit;
+            width:90%;
+            margin: 0px;
+        }
+    }
+
+	ul#facets {
+        font-size:14px;
+
+	}
+
+
+
+    ul#facets { list-style:none; }
 
 	a.none_facet {
 		color: red;
 	}
+
+
+
+    .facet_title{
+             display:block;
+    }
 </style>
+<script>
+
+$(document).ready(function () {
+    $("ul.facet_list").hide();
+    $("li").click(function () {
+        $("ul.facet_list", this).toggle();
+		if ($("#symbol", this).text() == "►")
+			$("#symbol", this).text("▼")
+		else
+			$("#symbol", this).text("►");
+    });
+});</script>
 {% endblock %}
 
 {% block content%}
@@ -48,78 +111,70 @@
 <p style="display: none;">{{querystring}}</p>
 
 
+
 {% regroup results|dictsort:"collection" by collection as collections %}
 
-<h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
-<a href="../">&lt; Back to search</a><br><br>
 <div id="results">
 
-{% for coll in collections %}
+	{% for coll in collections %}
 
-	<a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a>
+	<h3><a href="../../collections/{{coll.grouper}}">{{coll.grouper}}</a></h3>
 	<ul class="collection">
-	{% for result in coll.list %}
+		{% for result in coll.list %}
 
 		{% block result%}
 		<li>
-	          {% if result.image_url %}
-	          <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
-	          {% else %}
-	          <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
-	          {% endif %}
-	          <a href="{{ result.url }}">{{ result.id }} </a>
-	          {% if show_dates %}
-	          <span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
-	          {% endif %}
-	          <span class="status">({{ result.status }})</span>
-	          {% if result.text_genre_desc %}
-	          <br/><span class="desc">{{result.text_genre_desc.0}}</span>
-	          {% endif %}
-	    </li>
-	    {% endblock result %}
+			{% if result.image_url %}
+			<img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
+			{% else %}
+			<img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+			{% endif %}
+			<a href="{{ result.url }}">{{ result.id }} </a>
+			{% if show_dates %}
+			<span class="date">(Between {{result.notBefore|era}} and {{result.notAfter|era}})</span>
+			{% endif %}
+			<span class="status">({{ result.status }})</span>
+			{% if result.text_genre_desc %}
+			<br/><span class="desc">{{result.text_genre_desc.0}}</span>
+			{% endif %}
+		</li>
+		{% endblock result %}
 
 
-	{% endfor %}
+		{% endfor %}
 	</ul>
 
-{% empty %}
-No Results. <a href="../">Search again...</a>
+	{% empty %}
+	No Results. <a href="../">Search again...</a>
 
-{% endfor %}
+	{% endfor %}
 </div>
+
+<div id="facetscontainer">
+<h4>{% if results|length > 0 %}{{results|length}} results{% endif %}</h4>
+<a href="../">&lt; Back to search</a><br><br>
+
+
 
 {% endblock results %}
 {% block facets%}
 <ul id="facets">
 <h4>{{results|length}} Total Results</h4>
-{% for facet,counts in facets.items %}
-{% block facet %}
-{% if counts %}
-	<li>
-		<h4>{{facet|tax}}</h4>
-		<ul class="facet_list">
-			{% for name,count in counts %}
-				<li>
-					{% if name == "none_value" %}
-					<a class="none_facet" href="{{url}}&amp;facet_{{facet}}={{name}}">
-						No Value ({{count}})
-					</a>
-					{% else %}
-					<a href="{{url}}&amp;facet_{{facet}}={{name}}">
-						{{name|tax}} ({{count}})
-					</a>
-					{% endif %}
-				</li>
-			{% endfor %}
-		</ul>
-	</li>
-{% endif %}
-{% endblock facet %}
-
-{% endfor %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.status facet="status"%}
+{% include "usep_templates/facet_fragment.html" with counts=facets.fake facet="fake" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.language facet="language" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.text_genre facet="text_genre" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.object_type facet="object_type" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.material facet="material" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.condition facet="condition" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.writing facet="writing" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.char facet="char" %}
+{% include "usep_templates/facet_fragment.html" with counts=facets.name facet="name" %}
 </ul>
 
 {% endblock facets%}
+</div>
+
 
 
 {% endblock content %}

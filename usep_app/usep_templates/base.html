@@ -1,28 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en-US">
-
-  <head profile="http://gmpg.org/xfn/11">
+<link href="https://fonts.googleapis.com/css?family=Cinzel|Roboto|Vollkorn" rel="stylesheet">
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>{% block head_title %}HOLDER{% endblock head_title %}</title>
     <link type="text/css" {% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %} media="all" rel="stylesheet" />
 
     {% block in_page_css %}{% endblock in_page_css %}
-
+    
   </head>
 
   <body>
 
-    <!-- to display message banner, a) add text between p tag, & b) change display: block to display: none -->
-    <div id="emergency_notice" style="font-size : 1.3em ; width : 100% ; background-color : #ED1C24 ; text-align : center ; color : #fff ; font-family : freight-sans-pro, Arial, sans serif ; clear : both ; display: none ;">
-        <p style="margin : 0px ; padding : 10px ; "></p>
-    </div>
-
     <div id="header">
       {% block header %}
-      <a href="{% url 'collections_url' %}"><img id="useplogo" src="{{ STATIC_URL }}usep/css/gfx/header_brickstamp.png" alt="U.S. Epigraphy Project" title="U.S. Epigraphy Project home page"/></a>
+      <a href="{% url 'collections_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/header_brickstamp.png" alt="U.S. Epigraphy Project" title="U.S. Epigraphy Project home page"/></a>
     	<div id="headerlinks">
+            <div id="headerlink_color">
             <div>
                 <a href="{% url 'search_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/button_search.png" /></a>
                 <a href="{% url 'collections_url' %}"><img src="{{ STATIC_URL }}usep/css/gfx/button_collections.png" /></a>
@@ -34,7 +30,8 @@
       			<a href="{% url 'about_url' %}">About</a> |
       			<a href="{% url 'contact_url' %}">Contact</a>
             </div>
-    	</div>
+            </div>
+      </div>
     	{% endblock header %}
     </div>
 
