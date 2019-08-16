@@ -79,14 +79,20 @@ def collection( request, collection ):
         c = models.Collection()
         solr_data = c.get_solr_data( collection )
         inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
+        try:
+            flat_collection_obj = FlatCollection.objects.get(collection_code=collection)
+        except:
+            log.exception( 'problem getting FlatCollection object...' )
         data_dict = {
             u'collection_title': collection,
             u'inscriptions': inscription_dict,
             u'inscription_count': num,
             u'display': display_dict,
-            u'flat_collection': FlatCollection.objects.get(collection_code=collection),
+            # u'flat_collection': FlatCollection.objects.get(collection_code=collection),
+            u'flat_collection': flat_collection_obj,
             u'show_dates':False,
             }
+        log.debug( 'data_dict (partial), ```%s```' % pprint.pformat(data_dict)[0:500] )
         return data_dict
     def build_response( format, callback ):
         if format == u'json':
