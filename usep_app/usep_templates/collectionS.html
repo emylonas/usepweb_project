@@ -59,8 +59,11 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 	
 
 </div>
-
+<h3 style="padding-left:1em;
+  margin-top:2em;">International Collections</h3>
+ <hr>
   <div class="region">
+
 
     {% regroup all_collections_dictionaries by region_name as region_list %}  {% comment %} note: no 'end_regroup' {% endcomment %}
 
@@ -84,6 +87,8 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 			<hr>
 <div class="descriptioncontainer">
       {% comment %} ## Collections ## {% endcomment %}
+
+
       {% for item in region_name.list %}
         <p class="description"> 
         <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
@@ -100,6 +105,17 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
        {% endif %}
     {% endfor %}
 
+   </div>
+
+         <h3 style="padding-left:1em;
+  margin-top:2em;">American Collections</h3>
+           <hr>
+   <div class="region">
+
+    
+    
+
+ 
        {% for region_name in region_list %}
  {%if "ITA" not in region_name.list.0.region_code %}
       {% comment %} ## Region-name with anchor ## {% endcomment %}

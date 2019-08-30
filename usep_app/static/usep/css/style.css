@@ -59,7 +59,7 @@ html{font-size:100.01%;}
 body {
 	background:#FFF;
 	color : #000;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Georgia', 'Book Antiqua', Palatino, serif;
 	padding:0px;
 	margin:0px;
 	font-size: 90%;
@@ -296,6 +296,13 @@ img {
 	padding-top:20px;
 }
 
+
+.region hr {
+	min-width:300px;
+	max-width:400px;
+	align:right;
+}
+
 .subregion {
 	break-inside:avoid;
 	margin-bottom: 20px;
@@ -309,6 +316,7 @@ img {
     border-width: 1px;
     border-color:#999999; 
 }
+
 
 /*Used for inscription lists 
 */
@@ -421,9 +429,12 @@ img {
     float:right;
 	margin-top:0px;
 	-webkit-margin-before: 0px;
-   
+	text-align:left;
 }
 
+.caption {
+	text-align:center;
+}
 .status{
     font-family: 'Vollkorn', serif;
     color:#99827e;

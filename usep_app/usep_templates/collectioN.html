@@ -13,6 +13,8 @@
     $(document).ready(function(){
 //        $("#description > p").css('height', 'auto');
     var fullHeight =  $("#description > p").height();
+    console.log(fullHeight);
+    console.log("hello");
         $("#description > p").addClass('hide');
     if (fullHeight < 200) {
     $("button").hide();
@@ -43,8 +45,6 @@
   <div id="main">
       <div class="Ncontainer">
       <div class="intro">
-          <h2>Collection Information</h2>
-          <hr>
     <div id="description">
         <p>{% autoescape off %}{{ flat_collection.collection_description }} {% endautoescape %}</p>
           <button>Expand</button>
@@ -58,16 +58,19 @@
       <div class="collection">
         {% for result in language_group.docs %}
         <div class="item right-caption">
-             <h3>  <a href="{{ result.url }}">{{ result.id }} </a></h3>
-            <hr>
+          <span class="status">({{ result.status }})</span>
+          <hr>
           {% if result.image_url %}
             <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="80" height="80"></img>
             {% else %}
             <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="80" height="80"></img>
             {% endif %}
         <div class="caption">
+
+           <h3 style="padding-left:1em;">  <a href="{{ result.url }}">{{ result.id }} </a></h3>
                <p>
-            <span class="status">({{ result.status }})</span>
+                
+           
             {% if result.text_genre_desc %}
          
                 <br/><span class="desc">{{result.text_genre_desc.0}}</span> 
