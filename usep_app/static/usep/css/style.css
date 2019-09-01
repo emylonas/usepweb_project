@@ -59,7 +59,7 @@ html{font-size:100.01%;}
 body {
 	background:#FFF;
 	color : #000;
-	font-family: 'Georgia', 'Book Antiqua', Palatino, serif;
+	font-family: 'Roboto', sans-serif;
 	padding:0px;
 	margin:0px;
 	font-size: 90%;
@@ -81,8 +81,9 @@ p {
 h1 {
 	font-size:2.1em;
 	text-transform: uppercase;
-	font-family: 'Cinzel', serif;
+	font-family: 'Roboto', sans-serif;
 	letter-spacing:0.15em;
+	font-weight:normal;
 	}
 
 .id_string {
@@ -92,7 +93,7 @@ h1 {
 h2 {
 	font-size : 1.5em;
 	text-transform:uppercase;
-    font-family: 'Vollkorn', serif;
+    font-family: 'Roboto', sans-serif;
 	font-weight:normal;
     margin:0;
 	}
@@ -101,7 +102,7 @@ h3 {
 	font-size:1.4em;
 	color:#4b7975;
 	text-transform:uppercase;
-	font-family: 'Vollkorn', serif;
+	font-family: 'Roboto', sans-serif;
 	font-weight:normal;
 	letter-spacing:0.15em;
     margin: 5px;
@@ -154,7 +155,7 @@ img {
 	position:absolute;
 	top:35px;
 	left:200px;
-	font-family: 'Vollkorn', serif;
+	font-family: 'Roboto', sans-serif;
 	text-transform:uppercase;
 	letter-spacing:0.15em;
 	color:#efeae4;
@@ -257,7 +258,7 @@ img {
 	background-color:#549390;
 	min-height:1.2em;
 	width:100%;
-	font-family:georgia,palatino,serif;
+	font-family: 'Roboto', sans-serif;
 	letter-spacing:0.1em;
 	font-weight:normal;
 	font-size:1.2em;
@@ -311,6 +312,7 @@ img {
 	padding: 20px;
 	min-width: 300px;
 	max-width: 400px;
+	min-height: 140px;
 	background: #efeae4;
     border-style: solid;
     border-width: 1px;
@@ -436,7 +438,7 @@ img {
 	text-align:center;
 }
 .status{
-    font-family: 'Vollkorn', serif;
+    font-family: 'Roboto', sans-serif;
     color:#99827e;
     padding:5px;
     padding-bottom:1px;
@@ -456,6 +458,7 @@ img {
 }
 
 .descriptioncontainer{
+	overflow:hidden;
 
 }
 

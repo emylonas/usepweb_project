@@ -70,6 +70,8 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 
     {% for region_name in region_list %}
 
+
+
  {%if "ITA" in region_name.list.0.region_code %}
 
 
@@ -85,6 +87,7 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
             <h2>{{ region_name.grouper }}</h2>
           </a>
 			<hr>
+
 <div class="descriptioncontainer">
       {% comment %} ## Collections ## {% endcomment %}
 
@@ -122,15 +125,21 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
       {% for item in region_name.list %}
         {% if forloop.first %}
         <div class="subregion">
+         <div class="headerbox"> 
           <a name="{{ item.region_code|lower }}">
+          <div class="excol"></div>
         {% endif %}
       {% endfor %}
+          
             <h2>{{ region_name.grouper }}</h2>
+          
           </a>
       <hr>
-<div class="descriptioncontainer">
+    </div>
+
       {% comment %} ## Collections ## {% endcomment %}
       {% for item in region_name.list %}
+      {% if forloop.first %}
         <p class="description"> 
         <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
     <div id="address">
@@ -140,6 +149,20 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
             <p>{{ item.collection_description|safe }}</p>
           </div>
         </p>
+        <div class="descriptioncontainer">
+        {% else %}
+            <p class="description"> 
+        <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
+    <div id="address">
+          <a target="_blank" href="{{ item.collection_url }}">{{ item.collection_name }}<br/>{{ item.collection_address }}</a>
+        </div>
+          <div class="js-info">
+            <p>{{ item.collection_description|safe }}</p>
+          </div>
+        </p>
+        {% endif %}
+
+
       {% endfor %}
 
 </div>
@@ -175,4 +198,50 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
       });
     });
   </script>
+
+<script type="text/javascript">
+
+var collections = document.getElementsByClassName("descriptioncontainer");
+col = [];
+butts = [];
+for(var i = 0; i < collections.length; i++)
+{
+    $(collections.item(i)).attr("id", "col-" + i);
+
+    col[i] = "#col-" + i;
+
+    var fullHeight =  $(col[i]).parent().height();
+
+    if ((fullHeight > 182)){
+
+   //     $(col[i]).after("...")
+        $(col[i]).hide();
+
+
+
+    }
+
+  }
+
+
+
+$(".headerbox > a > h2").click(function () {
+    $header = $(this);
+    //getting the next element
+    $content = $(this).parent().parent().next().next().next().next().next().next();
+    
+    //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+    $content.slideToggle(500, function () {
+        //execute this after slideToggle is done
+        //change text of header based on visibility of content div
+        // $header..text(function () {
+        //     //change text based on condition
+        //     return $content.is(":visible") ? "Collapse" : "Expand";
+        // });
+    });
+
+});
+  </script>
+
+
 {% endblock page_js %}
