@@ -123,6 +123,7 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
  {%if "ITA" not in region_name.list.0.region_code %}
       {% comment %} ## Region-name with anchor ## {% endcomment %}
       {% for item in region_name.list %}
+
         {% if forloop.first %}
         <div class="subregion">
          <div class="headerbox"> 
@@ -201,38 +202,64 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 
 <script type="text/javascript">
 
-var collections = document.getElementsByClassName("descriptioncontainer");
+var region = document.getElementsByClassName("region");
+var collections = region.item(1).getElementsByClassName("descriptioncontainer");
+//removing italian collection b/c it messes up the iterating
+
 col = [];
-butts = [];
+
 for(var i = 0; i < collections.length; i++)
 {
+     var titles = document.getElementsByClassName("headerbox");
+   console.log(collections.item(i));
     $(collections.item(i)).attr("id", "col-" + i);
 
     col[i] = "#col-" + i;
 
-    var fullHeight =  $(col[i]).parent().height();
-
-    if ((fullHeight > 182)){
-
+    var fullHeight =  $(col[i]).height();
+     
+//console.log(col[i], fullHeight);
+    if ((fullHeight > 100)){
    //     $(col[i]).after("...")
+       console.log(fullHeight);
         $(col[i]).hide();
-
-
+       $(titles[i]).append('<a><h2><div class="expand">+</div></h2></a>');
+       $(titles[i]).css({cursor:'pointer'});
+       $(titles[i]).children().hover(function(){
+            $(this).css({color: '#4b7975'});
+              }, function(){
+            $(this).css({ color: '#000' });
+                   });
 
     }
+
+
 
   }
 
 
 
 $(".headerbox > a > h2").click(function () {
+  var rotation = 0;
     $header = $(this);
     //getting the next element
     $content = $(this).parent().parent().next().next().next().next().next().next();
     
     //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
     $content.slideToggle(500, function () {
-        //execute this after slideToggle is done
+    
+      
+    rotation += 80;
+    console.log($header.siblings(".expand"));
+  //  $header.parent().next().next().children().children().last().css({'transform' : 'rotate('+ 45 +'deg)'});
+     $header.next().hide();
+
+       $header.parent().next().next().children().children().last().text(function (){
+            return $content.is(":visible") ? "-" : "+";
+       })
+
+
+              //execute this after slideToggle is done
         //change text of header based on visibility of content div
         // $header..text(function () {
         //     //change text based on condition

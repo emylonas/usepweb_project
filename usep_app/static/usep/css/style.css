@@ -161,6 +161,43 @@ img {
 	color:#efeae4;
 	}
 
+.expand {
+	float:right;
+	position:relative;
+	top:-35px;
+}
+
+.expand h2{
+	font-size:1.5em;
+}
+
+@-moz-keyframes expand /*--for firefox--*/{
+
+    from{
+        -moz-transform:rotate(0deg);
+    }       
+    to{
+        -moz-transform:rotate(360deg);
+    }                       
+
+}
+
+@-webkit-keyframes expand /*--for webkit--*/{
+
+    from{
+        -webkit-transform:rotate(0deg);
+    }       
+    to{
+        -webkit-transform:rotate(360deg);
+    }                       
+
+}
+
+div.headerbox > a:hover{
+	color:#000;
+}
+
+.expand 
 #headerlink_color a:link {
 	color:#efeae4;
 }
@@ -312,7 +349,7 @@ img {
 	padding: 20px;
 	min-width: 300px;
 	max-width: 400px;
-	min-height: 140px;
+	min-height: 185.5px;
 	background: #efeae4;
     border-style: solid;
     border-width: 1px;
