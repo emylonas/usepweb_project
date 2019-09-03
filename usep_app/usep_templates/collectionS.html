@@ -59,13 +59,18 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
 	
 
 </div>
-
+<h3 style="padding-left:1em;
+  margin-top:2em;">International Collections</h3>
+ <hr>
   <div class="region">
+
 
     {% regroup all_collections_dictionaries by region_name as region_list %}  {% comment %} note: no 'end_regroup' {% endcomment %}
 
 
     {% for region_name in region_list %}
+
+
 
  {%if "ITA" in region_name.list.0.region_code %}
 
@@ -82,8 +87,11 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
             <h2>{{ region_name.grouper }}</h2>
           </a>
 			<hr>
+
 <div class="descriptioncontainer">
       {% comment %} ## Collections ## {% endcomment %}
+
+
       {% for item in region_name.list %}
         <p class="description"> 
         <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
@@ -100,21 +108,39 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
        {% endif %}
     {% endfor %}
 
+   </div>
+
+         <h3 style="padding-left:1em;
+  margin-top:2em;">American Collections</h3>
+           <hr>
+   <div class="region">
+
+    
+    
+
+ 
        {% for region_name in region_list %}
  {%if "ITA" not in region_name.list.0.region_code %}
       {% comment %} ## Region-name with anchor ## {% endcomment %}
       {% for item in region_name.list %}
+
         {% if forloop.first %}
         <div class="subregion">
+         <div class="headerbox"> 
           <a name="{{ item.region_code|lower }}">
+          <div class="excol"></div>
         {% endif %}
       {% endfor %}
+          
             <h2>{{ region_name.grouper }}</h2>
+          
           </a>
       <hr>
-<div class="descriptioncontainer">
+    </div>
+
       {% comment %} ## Collections ## {% endcomment %}
       {% for item in region_name.list %}
+      {% if forloop.first %}
         <p class="description"> 
         <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
     <div id="address">
@@ -124,6 +150,20 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
             <p>{{ item.collection_description|safe }}</p>
           </div>
         </p>
+        <div class="descriptioncontainer">
+        {% else %}
+            <p class="description"> 
+        <div class="descriptionLink"> <h3> <a href="../collections/{{ item.collection_code }}/">{{ item.collection_code }}</a></h3></div>
+    <div id="address">
+          <a target="_blank" href="{{ item.collection_url }}">{{ item.collection_name }}<br/>{{ item.collection_address }}</a>
+        </div>
+          <div class="js-info">
+            <p>{{ item.collection_description|safe }}</p>
+          </div>
+        </p>
+        {% endif %}
+
+
       {% endfor %}
 
 </div>
@@ -159,4 +199,76 @@ The Project currently provides access to a database of some 750 Greek and 1,700 
       });
     });
   </script>
+
+<script type="text/javascript">
+
+var region = document.getElementsByClassName("region");
+var collections = region.item(1).getElementsByClassName("descriptioncontainer");
+//removing italian collection b/c it messes up the iterating
+
+col = [];
+
+for(var i = 0; i < collections.length; i++)
+{
+     var titles = document.getElementsByClassName("headerbox");
+   console.log(collections.item(i));
+    $(collections.item(i)).attr("id", "col-" + i);
+
+    col[i] = "#col-" + i;
+
+    var fullHeight =  $(col[i]).height();
+     
+//console.log(col[i], fullHeight);
+    if ((fullHeight > 100)){
+   //     $(col[i]).after("...")
+       console.log(fullHeight);
+        $(col[i]).hide();
+       $(titles[i]).append('<a><h2><div class="expand">+</div></h2></a>');
+       $(titles[i]).css({cursor:'pointer'});
+       $(titles[i]).children().hover(function(){
+            $(this).css({color: '#4b7975'});
+              }, function(){
+            $(this).css({ color: '#000' });
+                   });
+
+    }
+
+
+
+  }
+
+
+
+$(".headerbox > a > h2").click(function () {
+  var rotation = 0;
+    $header = $(this);
+    //getting the next element
+    $content = $(this).parent().parent().next().next().next().next().next().next();
+    
+    //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+    $content.slideToggle(500, function () {
+    
+      
+    rotation += 80;
+    console.log($header.siblings(".expand"));
+  //  $header.parent().next().next().children().children().last().css({'transform' : 'rotate('+ 45 +'deg)'});
+     $header.next().hide();
+
+       $header.parent().next().next().children().children().last().text(function (){
+            return $content.is(":visible") ? "-" : "+";
+       })
+
+
+              //execute this after slideToggle is done
+        //change text of header based on visibility of content div
+        // $header..text(function () {
+        //     //change text based on condition
+        //     return $content.is(":visible") ? "Collapse" : "Expand";
+        // });
+    });
+
+});
+  </script>
+
+
 {% endblock page_js %}
