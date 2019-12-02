@@ -2,13 +2,34 @@
 
 {% block head_title %}admin-links{% endblock head_title %}
 
-{% block page_title %}Admin Links{% endblock page_title %}
+{% block in_page_css%}
+    <style type="text/css">
+        /*span#admin_title {
+            text-align: left;
+        }*/
+        h1#pagetitle {
+            text-align: left;
+            margin-top: 1.5em;
+            margin-left: 4em;
+            margin-bottom: -.5em;
+        }
+        div#content {
+            text-align: left;
+            margin-left: 7em;
+        }
+        li {
+            margin-bottom: .5em;
+        }
+    </style>
+{% endblock %}
+
+{% block page_title %}<span id="admin_title">Admin Links</span>{% endblock page_title %}
 
 {% block content %}
-    <p>
-        Delete Solr Orphans: <a href="{{ delete_solr_orphans_url }}">aa</a>
-    </p>
-    <p>
-        Edit Collection Pages: <a href="{{ collections_admin_url }}">bb</a>
-    </p>
+
+    <ul>
+        <li><a href="{{ collections_admin_url }}">Edit Collection Pages</a></li>
+        <li><a href="{{ delete_solr_orphans_url }}">Delete Solr Orphans</a></li>
+    </ul>
+
 {% endblock content %}
