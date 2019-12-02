@@ -11,7 +11,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url( r'^usep/admin/', include(admin.site.urls) ),  # eg host/project_x/admin/
+    url( r'^usep/admin/links/$',  'usep_app.views.admin_links', name='admn_links_url' ),
+    url( r'^usep/admin/delete_orphans/$',  'usep_app.views.delete_orphans', name='delete_orphans_url' ),
+    url( r'^usep/admin/', include(admin.site.urls) ),
 
     url( r'^usep/info/$',  'usep_app.views.info', name='info_url' ),
 
