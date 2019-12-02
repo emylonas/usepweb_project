@@ -51,12 +51,12 @@
       {%if "ITA" in region_name.list.0.region_code %}
 
      {% for item in region_name.list %}
-    
+
 
         {% if forloop.first %}
           <a name="{{ item.region_code|lower }}">
         {% endif %}
-      
+
       {% endfor %}
             <h2>{{ region_name.grouper }}</h2>
           </a>
@@ -91,7 +91,7 @@
         {% if forloop.first %}
           <a name="{{ item.region_code|lower }}">
         {% endif %}
-      
+
       {% endfor %}
             <h2>{{ region_name.grouper }}</h2>
           </a>
@@ -115,7 +115,8 @@
     <!-- end region output -->
 
   </div> <!-- end div class="region" -->
-  <div id="admin" style="position: absolute; right: 10px;"><a href="{{ login_url }}">admin</div>
+  <!-- <div id="admin" style="position: absolute; right: 10px;"><a href="{{ login_url }}">admin</div> -->
+  <div id="admin" style="position: absolute; right: 10px;"><a href="{{ admn_links_url }}">admin</div>
 {% endblock content %}
 
 {% block page_js %}
