@@ -143,8 +143,6 @@ def publications( request ):
     return render( request, u'usep_templates/publications.html', data_dict )
 
 
-
-
 def pub_children( request, publication ):
     """displays listing of inscriptions for publication"""
     log.debug( u'publication: %s' % publication )
@@ -182,6 +180,24 @@ def pub_children( request, publication ):
         return render( request, u'usep_templates/publicatioN.html', data_dict )
 
 
+def admin_links( request ):
+    """ Displays admin-links. """
+    context = {
+        'collections_admin_url': reverse( 'admin:usep_app_flatcollection_changelist' ),
+        'delete_solr_orphans_url': reverse( 'delete_orphans_url' )
+        }
+    format = request.GET.get( 'format', None )
+    if format == 'json':
+        output = json.dumps( context, sort_keys=True, indent=2 )
+        return HttpResponse( output, content_type='application/json; charset=utf-8' )
+    else:
+        return render( request, 'usep_templates/admin_links.html', context )
+    # return HttpResponse( 'admin-links page coming' )
+
+
+def delete_orphans( request ):
+    """ Manages solr orphan deletion. """
+    return HttpResponse( 'solr-orphan-deletion coming' )
 
 
 ## static pages  ##
