@@ -1,0 +1,14 @@
+{% extends "usep_templates/base.html" %}
+
+{% block head_title %}admin-links{% endblock head_title %}
+
+{% block page_title %}Admin Links{% endblock page_title %}
+
+{% block content %}
+    <p>
+        Delete Solr Orphans: <a href="{{ delete_solr_orphans_url }}">aa</a>
+    </p>
+    <p>
+        Edit Collection Pages: <a href="{{ collections_admin_url }}">bb</a>
+    </p>
+{% endblock content %}
