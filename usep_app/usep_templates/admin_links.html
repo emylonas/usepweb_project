@@ -20,6 +20,13 @@
         li {
             margin-bottom: .5em;
         }
+        span.info {
+            font-style: italic;
+            font-size: small;
+        }
+        span.disabled {
+            color: grey;
+        }
     </style>
 {% endblock %}
 
@@ -29,7 +36,9 @@
 
     <ul>
         <li><a href="{{ collections_admin_url }}">Edit Collection Pages</a></li>
-        <li><a href="{{ delete_solr_orphans_url }}">Delete Solr Orphans</a></li>
+        <li><a href="{{ delete_solr_orphans_url }}">Reindex All</a><span class="info"> (will also delete solr orphans)</span></li>
+        <li><span class="disabled">Delete Solr Orphans</span> <span class="info disabled"> (not yet implemented)</span></li>
+
     </ul>
 
 {% endblock content %}

@@ -50,7 +50,8 @@ def collections( request ):
     data_dict = {
       'region_codes': fc.make_region_codes_list(),
       'all_collections_dictionaries': all_collections_dictionaries,
-      'login_url': reverse('admin:usep_app_flatcollection_changelist' ),
+      # 'login_url': reverse('admin:usep_app_flatcollection_changelist' ),
+      'admin_links_url': reverse( 'admn_links_url' ),
       'search_url': reverse( 'search_url' ), 'collections_url': reverse( 'search_url' ), 'publications_url': reverse( 'publications_url' ),
       'texts_url': reverse( 'texts_url' ), 'links_url': reverse( 'links_url' ), 'about_url': reverse( 'about_url' ), 'contact_url': reverse( 'contact_url' ),
     }
@@ -184,7 +185,7 @@ def admin_links( request ):
     """ Displays admin-links. """
     context = {
         'collections_admin_url': reverse( 'admin:usep_app_flatcollection_changelist' ),
-        'delete_solr_orphans_url': reverse( 'delete_orphans_url' )
+        'delete_solr_orphans_url': 'url-coming'
         }
     format = request.GET.get( 'format', None )
     if format == 'json':
