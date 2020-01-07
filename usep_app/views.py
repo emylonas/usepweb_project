@@ -185,7 +185,7 @@ def admin_links( request ):
     """ Displays admin-links. """
     context = {
         'collections_admin_url': reverse( 'admin:usep_app_flatcollection_changelist' ),
-        'delete_solr_orphans_url': 'url-coming'
+        'reindex_all_url': settings_app.REINDEX_ALL_URL
         }
     format = request.GET.get( 'format', None )
     if format == 'json':
