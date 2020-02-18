@@ -42,6 +42,7 @@ def error_check( request ):
 def collections( request ):
   """Displays list of collections by Region."""
   log.debug( 'starting collections()' )
+  start_time = datetime.datetime.now()
   ## helpers ##
   def prepare_data():
     fc = FlatCollection()
@@ -55,7 +56,7 @@ def collections( request ):
       'search_url': reverse( 'search_url' ), 'collections_url': reverse( 'search_url' ), 'publications_url': reverse( 'publications_url' ),
       'texts_url': reverse( 'texts_url' ), 'links_url': reverse( 'links_url' ), 'about_url': reverse( 'about_url' ), 'contact_url': reverse( 'contact_url' ),
     }
-    log.debug( 'data_dict, ```%s```' % pprint.pformat(data_dict)[0:5000] )
+    log.debug( 'data_dict (partial), ```%s```...' % pprint.pformat(data_dict)[0:1000] )
     return data_dict
   def build_response( format, callback ):
     if format == 'json':
@@ -70,7 +71,43 @@ def collections( request ):
   format = request.GET.get( 'format', None )
   callback = request.GET.get( 'callback', None )
   response = build_response( format, callback )
+  elapsed_time = unicode( datetime.datetime.now() - start_time )
+  log.debug( 'elapsed time, ```%s```' % elapsed_time )
   return response
+
+
+# def collections( request ):
+#   """Displays list of collections by Region."""
+#   log.debug( 'starting collections()' )
+#   ## helpers ##
+#   def prepare_data():
+#     fc = FlatCollection()
+#     all_collections_objects = FlatCollection.objects.all().order_by( 'region_name', 'collection_code' )
+#     all_collections_dictionaries = [ obj.as_dict() for obj in all_collections_objects ]
+#     data_dict = {
+#       'region_codes': fc.make_region_codes_list(),
+#       'all_collections_dictionaries': all_collections_dictionaries,
+#       # 'login_url': reverse('admin:usep_app_flatcollection_changelist' ),
+#       'admin_links_url': reverse( 'admn_links_url' ),
+#       'search_url': reverse( 'search_url' ), 'collections_url': reverse( 'search_url' ), 'publications_url': reverse( 'publications_url' ),
+#       'texts_url': reverse( 'texts_url' ), 'links_url': reverse( 'links_url' ), 'about_url': reverse( 'about_url' ), 'contact_url': reverse( 'contact_url' ),
+#     }
+#     log.debug( 'data_dict, ```%s```' % pprint.pformat(data_dict)[0:5000] )
+#     return data_dict
+#   def build_response( format, callback ):
+#     if format == 'json':
+#       output = json.dumps( data_dict, sort_keys=True, indent=2 )
+#       if callback:
+#         output = '%s(%s)' % ( callback, output )
+#       return HttpResponse( output, content_type = 'application/javascript; charset=utf-8' )
+#     else:
+#       return render( request, 'usep_templates/collectionS.html', data_dict )
+#   ## work ##
+#   data_dict = prepare_data()
+#   format = request.GET.get( 'format', None )
+#   callback = request.GET.get( 'callback', None )
+#   response = build_response( format, callback )
+#   return response
 
 
 def collection( request, collection ):
@@ -99,11 +136,15 @@ def collection( request, collection ):
             return render( request, u'usep_templates/collectioN.html', data_dict )
     ## work ##
     log.debug( 'starting collection()' )
+    start_time = datetime.datetime.now()
     data_dict = prepare_data()
-    log.debug( 'data_dict, ```{}```'.format(pprint.pformat(data_dict))[0:1000] )
+    # log.debug( 'data_dict (partial), ```{}```...'.format(pprint.pformat(data_dict))[0:1000] )
+    log.debug( 'data_dict (partial), ```%s```...' % pprint.pformat(data_dict)[0:1000] )
     format = request.GET.get( u'format', None )
     callback = request.GET.get( u'callback', None )
     response = build_response( format, callback )
+    elapsed_time = unicode( datetime.datetime.now() - start_time )
+    log.debug( 'elapsed time, ```%s```' % elapsed_time )
     return response
 
 
@@ -111,6 +152,7 @@ def display_inscription( request, inscription_id ):
     """ Displays inscription html from saxon-ce rendering of source xml and an include file of bib data,
       which is then run through an xsl transform. """
     log.debug( u'display_inscription() starting' )
+    start_time = datetime.datetime.now()
     display_inscription_helper = DisplayInscriptionHelper()  # models.py
     source_xml_url = display_inscription_helper.build_source_xml_url(
         settings_app.DISPLAY_INSCRIPTION_XML_URL_PATTERN, request.is_secure(), request.get_host(), inscription_id )
@@ -122,7 +164,10 @@ def display_inscription( request, inscription_id ):
         settings_app.DISPLAY_INSCRIPTION_XSL_URL,
         settings_app.DISPLAY_INSCRIPTION_SAXONCE_FILE_URL,
         settings_app.DISPLAY_INSCRIPTION_XIPR_URL )
-    log.debug( u'display_inscription() context, %s' % pprint.pformat(context) )
+    # log.debug( u'display_inscription() context, %s' % pprint.pformat(context) )
+    log.debug( u'display_inscription() context (partial), ```%s```...' % pprint.pformat(context)[0:1000] )
+    elapsed_time = unicode( datetime.datetime.now() - start_time )
+    log.debug( 'elapsed time, ```%s```' % elapsed_time )
     return render( request, u'usep_templates/display_inscription.html', context )
 
 
