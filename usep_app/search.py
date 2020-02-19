@@ -12,6 +12,9 @@ from django.views.decorators.cache import cache_page
 from usep_app import settings_app, models
 
 
+log = logging.getLogger(__name__)
+
+
 def search_form(request):
     log.debug( 'search.search_form() starting' )
     start_time = datetime.datetime.now()
