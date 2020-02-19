@@ -76,40 +76,6 @@ def collections( request ):
   return response
 
 
-# def collections( request ):
-#   """Displays list of collections by Region."""
-#   log.debug( 'starting collections()' )
-#   ## helpers ##
-#   def prepare_data():
-#     fc = FlatCollection()
-#     all_collections_objects = FlatCollection.objects.all().order_by( 'region_name', 'collection_code' )
-#     all_collections_dictionaries = [ obj.as_dict() for obj in all_collections_objects ]
-#     data_dict = {
-#       'region_codes': fc.make_region_codes_list(),
-#       'all_collections_dictionaries': all_collections_dictionaries,
-#       # 'login_url': reverse('admin:usep_app_flatcollection_changelist' ),
-#       'admin_links_url': reverse( 'admn_links_url' ),
-#       'search_url': reverse( 'search_url' ), 'collections_url': reverse( 'search_url' ), 'publications_url': reverse( 'publications_url' ),
-#       'texts_url': reverse( 'texts_url' ), 'links_url': reverse( 'links_url' ), 'about_url': reverse( 'about_url' ), 'contact_url': reverse( 'contact_url' ),
-#     }
-#     log.debug( 'data_dict, ```%s```' % pprint.pformat(data_dict)[0:5000] )
-#     return data_dict
-#   def build_response( format, callback ):
-#     if format == 'json':
-#       output = json.dumps( data_dict, sort_keys=True, indent=2 )
-#       if callback:
-#         output = '%s(%s)' % ( callback, output )
-#       return HttpResponse( output, content_type = 'application/javascript; charset=utf-8' )
-#     else:
-#       return render( request, 'usep_templates/collectionS.html', data_dict )
-#   ## work ##
-#   data_dict = prepare_data()
-#   format = request.GET.get( 'format', None )
-#   callback = request.GET.get( 'callback', None )
-#   response = build_response( format, callback )
-#   return response
-
-
 def collection( request, collection ):
     """Displays list of inscriptions for given collection."""
     ## helpers ##
@@ -173,6 +139,8 @@ def display_inscription( request, inscription_id ):
 
 def publications( request ):
     """ Displays list of Corpora, Journals, Monographs, and Unpublished/Missing citations. """
+    log.debug( 'publications() starting' )
+    start_time = datetime.datetime.now()
     hostname = request.get_host()
     custom_static_url = project_settings.STATIC_URL
     publications_stylesheet_url = settings_app.DISPLAY_PUBLICATIONS_XSL_URL
@@ -186,11 +154,16 @@ def publications( request ):
         u'publications_xml_url': publications_xml_url,
         u'custom_static_url': custom_static_url,
     }
+    elapsed_time = unicode( datetime.datetime.now() - start_time )
+    log.debug( 'elapsed time, ```%s```' % elapsed_time )
     return render( request, u'usep_templates/publications.html', data_dict )
 
 
 def pub_children( request, publication ):
     """displays listing of inscriptions for publication"""
+    log.debug( 'pub_children() starting' )
+    start_time = datetime.datetime.now()
+
     log.debug( u'publication: %s' % publication )
     assert type( publication ) == unicode
 
@@ -217,6 +190,10 @@ def pub_children( request, publication ):
     ## respond
     format = request.GET.get( u'format', None )
     callback = request.GET.get( u'callback', None )
+
+    elapsed_time = unicode( datetime.datetime.now() - start_time )
+    log.debug( 'elapsed time, ```%s```' % elapsed_time )
+
     if format == u'json':
         output = json.dumps( data_dict, sort_keys=True, indent=2 )
         if callback:
