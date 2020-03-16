@@ -37,8 +37,8 @@
     <ul>
         <li><a href="{{ collections_admin_url }}">Edit Collection Pages</a></li>
         <li><a href="{{ reindex_all_url }}">Reindex All</a><span class="info"> (will also delete solr orphans)</span></li>
-        <li><span class="disabled">Delete Solr Orphans</span> <span class="info disabled"> (not yet implemented)</span></li>
-
+        <!-- <li><span class="disabled">Delete Solr Orphans</span> <span class="info disabled"> (not yet implemented)</span></li> -->
+        <li><a href="{{ delete_orphans_url }}">Delete Solr Orphans</a></li>
     </ul>
 
 {% endblock content %}
