@@ -114,6 +114,29 @@ def collection( request, collection ):
     return response
 
 
+# def display_inscription( request, inscription_id ):
+#     """ Displays inscription html from saxon-ce rendering of source xml and an include file of bib data,
+#       which is then run through an xsl transform. """
+#     log.debug( u'display_inscription() starting' )
+#     start_time = datetime.datetime.now()
+#     display_inscription_helper = DisplayInscriptionHelper()  # models.py
+#     source_xml_url = display_inscription_helper.build_source_xml_url(
+#         settings_app.DISPLAY_INSCRIPTION_XML_URL_PATTERN, request.is_secure(), request.get_host(), inscription_id )
+#     context = display_inscription_helper.build_context(
+#         request.get_host(),
+#         project_settings.STATIC_URL,
+#         inscription_id,
+#         source_xml_url,
+#         settings_app.DISPLAY_INSCRIPTION_XSL_URL,
+#         settings_app.DISPLAY_INSCRIPTION_SAXONCE_FILE_URL,
+#         settings_app.DISPLAY_INSCRIPTION_XIPR_URL )
+#     # log.debug( u'display_inscription() context, %s' % pprint.pformat(context) )
+#     log.debug( u'display_inscription() context (partial), ```%s```...' % pprint.pformat(context)[0:1000] )
+#     elapsed_time = unicode( datetime.datetime.now() - start_time )
+#     log.debug( 'elapsed time, ```%s```' % elapsed_time )
+#     return render( request, u'usep_templates/display_inscription.html', context )
+
+
 def display_inscription( request, inscription_id ):
     """ Displays inscription html from saxon-ce rendering of source xml and an include file of bib data,
       which is then run through an xsl transform. """
@@ -134,7 +157,13 @@ def display_inscription( request, inscription_id ):
     log.debug( u'display_inscription() context (partial), ```%s```...' % pprint.pformat(context)[0:1000] )
     elapsed_time = unicode( datetime.datetime.now() - start_time )
     log.debug( 'elapsed time, ```%s```' % elapsed_time )
-    return render( request, u'usep_templates/display_inscription.html', context )
+
+    if request.GET.get('format', '') == 'json':
+        resp = HttpResponse( json.dumps(context, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+    else:
+        resp = render( request, u'usep_templates/display_inscription.html', context )
+    log.debug( 'returning resp' )
+    return resp
 
 
 def publications( request ):
