@@ -61,49 +61,14 @@
 
         <p>( Total: {{ inscription_count }} ) Jump to: {% for k,v in display.iteritems %}<a href="#{{ k }}">{{ v }}</a>{% if not forloop.last %} | {% endif %}{% endfor %}</p>
 
-
-        <style>
-
-            img.thumb {
-                margin-top: 5em ;
-                padding-top: 5em ;
-            }
-
-            div.caption p {
-                margin-top: 0 ;
-            }
-
-            div.item p span.desc {
-                margin-top: -5.5em ;
-                margin-left: 7em ;
-                /*padding-left: .1em ;*/
-                display: block ;
-            }
-
-            div.status {
-                /*display: initial ;*/
-                text-align: left;
-                margin-top: -1em ;
-                margin-left: 6.5em ;
-                /*padding-top: em;*/
-                display: block ;
-            }
-
-
-        </style>
-
         {% for keylang,language_group in inscriptions.iteritems %}
         <h2 id="{{ keylang }}">{{ language_group.display }}</h2>
-
 
         <div class="collection">
             {% for result in language_group.docs %}
 
             <div class="item right-caption">
-                <!-- <span class="status">({{ result.status }})</span> -->
-                <!-- <h3 style="padding-left:1em;"> <a href="{{ result.url }}">{{ result.id }}</a> </h3> -->
-                <h3> <a href="{{ result.url }}">{{ result.id }}</a> </h3>
-
+                <span class="status">({{ result.status }})</span>
                 <hr/>
                 {% if result.image_url %}
                 <img class="thumb" src="{{ result.image_url }}" alt="inscription_thumbnail" width="80" height="80"></img>
@@ -112,14 +77,12 @@
                 {% endif %}
 
                 <div class="caption">
-                    <!--
                     <h3 style="padding-left:1em;">
                         <a href="{{ result.url }}">{{ result.id }}</a>
                     </h3>
-                    -->
                     <p>
                         {% if result.text_genre_desc %}
-                        <!-- <br/> -->
+                        <br/>
                         <span class="desc">{{result.text_genre_desc.0}}</span>
                         {% endif %}
                         {% if show_dates %}
@@ -129,8 +92,6 @@
                     </p>
 
                 </div>
-
-                <div class="status">({{ result.status }})</div>
             </div>  <!-- end <div class="item right-caption"> -->
             {% endfor %}
        </div>  <!-- end <div class="collection"> -->
