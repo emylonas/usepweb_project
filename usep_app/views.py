@@ -80,17 +80,21 @@ def collections( request ):
 #     """Displays list of inscriptions for given collection."""
 #     ## helpers ##
 #     def prepare_data():
+#         log.debug( 'starting collection->prepare_data()' )
 #         c = models.Collection()
 #         solr_data = c.get_solr_data( collection )
-#         inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
-#         data_dict = {
-#             u'collection_title': collection,
-#             u'inscriptions': inscription_dict,
-#             u'inscription_count': num,
-#             u'display': display_dict,
-#             u'flat_collection': FlatCollection.objects.get(collection_code=collection),
-#             u'show_dates':False,
-#             }
+#         if solr_data == []:
+#             data_dict = {}
+#         else:
+#             inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
+#             data_dict = {
+#                 u'collection_title': collection,
+#                 u'inscriptions': inscription_dict,
+#                 u'inscription_count': num,
+#                 u'display': display_dict,
+#                 u'flat_collection': FlatCollection.objects.get(collection_code=collection),
+#                 u'show_dates':False,
+#                 }
 #         return data_dict
 #     def build_response( format, callback ):
 #         if format == u'json':
@@ -104,6 +108,8 @@ def collections( request ):
 #     log.debug( 'starting collection()' )
 #     start_time = datetime.datetime.now()
 #     data_dict = prepare_data()
+#     if data_dict == {}:
+#         return HttpResponseNotFound( '404 / Not Found' )
 #     # log.debug( 'data_dict (partial), ```{}```...'.format(pprint.pformat(data_dict))[0:1000] )
 #     log.debug( 'data_dict (partial), ```%s```...' % pprint.pformat(data_dict)[0:1000] )
 #     format = request.GET.get( u'format', None )
@@ -118,11 +124,21 @@ def collection( request, collection ):
     """Displays list of inscriptions for given collection."""
     ## helpers ##
     def prepare_data():
+        log.debug( 'starting collection->prepare_data()' )
         c = models.Collection()
         solr_data = c.get_solr_data( collection )
+        data_dict = 'init'
         if solr_data == []:
+            log.debug( 'solr_data empty; setting data_dict to {}' )
             data_dict = {}
-        else:
+        if data_dict == 'init':
+            try:
+                flat_collection = FlatCollection.objects.get( collection_code=collection )
+            except:
+                log.exception( 'no collection found; traceback follows; processing will continue; setting data_dict to {}' )
+                data_dict = {}
+        if data_dict == 'init':
+            log.debug( 'data_dict looks good' )
             inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
             data_dict = {
                 u'collection_title': collection,
@@ -142,7 +158,7 @@ def collection( request, collection ):
         else:
             return render( request, u'usep_templates/collectioN.html', data_dict )
     ## work ##
-    log.debug( 'starting collection()' )
+    log.debug( 'starting collection(); collection, ``%s``' % collection )
     start_time = datetime.datetime.now()
     data_dict = prepare_data()
     if data_dict == {}:
