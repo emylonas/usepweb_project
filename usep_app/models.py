@@ -239,7 +239,7 @@ class Collection(object):
         log.debug( 'solr url, ```%s```' % r.url )
         d = json.loads( r.content.decode(u'utf-8', u'replace') )
         sorted_doc_list = sorted( d[u'response'][u'docs'], key=id_sort )  # sorts the doc-list on dict key 'msid_idno'
-        # log.debug( 'sorted_doc_list, ```{}```'.format(pprint.pformat(sorted_doc_list)) )
+        log.debug( 'sorted_doc_list, ```{}```'.format(pprint.pformat(sorted_doc_list)) )
         return sorted_doc_list
 
     def enhance_solr_data( self, solr_data, url_scheme, server_name ):

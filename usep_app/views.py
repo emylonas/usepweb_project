@@ -76,21 +76,62 @@ def collections( request ):
   return response
 
 
+# def collection( request, collection ):
+#     """Displays list of inscriptions for given collection."""
+#     ## helpers ##
+#     def prepare_data():
+#         c = models.Collection()
+#         solr_data = c.get_solr_data( collection )
+#         inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
+#         data_dict = {
+#             u'collection_title': collection,
+#             u'inscriptions': inscription_dict,
+#             u'inscription_count': num,
+#             u'display': display_dict,
+#             u'flat_collection': FlatCollection.objects.get(collection_code=collection),
+#             u'show_dates':False,
+#             }
+#         return data_dict
+#     def build_response( format, callback ):
+#         if format == u'json':
+#             output = json.dumps( data_dict, sort_keys=True, indent=2 )
+#             if callback:
+#                 output = u'%s(%s)' % ( callback, output )
+#             return HttpResponse( output, content_type = u'application/javascript; charset=utf-8' )
+#         else:
+#             return render( request, u'usep_templates/collectioN.html', data_dict )
+#     ## work ##
+#     log.debug( 'starting collection()' )
+#     start_time = datetime.datetime.now()
+#     data_dict = prepare_data()
+#     # log.debug( 'data_dict (partial), ```{}```...'.format(pprint.pformat(data_dict))[0:1000] )
+#     log.debug( 'data_dict (partial), ```%s```...' % pprint.pformat(data_dict)[0:1000] )
+#     format = request.GET.get( u'format', None )
+#     callback = request.GET.get( u'callback', None )
+#     response = build_response( format, callback )
+#     elapsed_time = unicode( datetime.datetime.now() - start_time )
+#     log.debug( 'elapsed time, ```%s```' % elapsed_time )
+#     return response
+
+
 def collection( request, collection ):
     """Displays list of inscriptions for given collection."""
     ## helpers ##
     def prepare_data():
         c = models.Collection()
         solr_data = c.get_solr_data( collection )
-        inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
-        data_dict = {
-            u'collection_title': collection,
-            u'inscriptions': inscription_dict,
-            u'inscription_count': num,
-            u'display': display_dict,
-            u'flat_collection': FlatCollection.objects.get(collection_code=collection),
-            u'show_dates':False,
-            }
+        if solr_data == []:
+            data_dict = {}
+        else:
+            inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
+            data_dict = {
+                u'collection_title': collection,
+                u'inscriptions': inscription_dict,
+                u'inscription_count': num,
+                u'display': display_dict,
+                u'flat_collection': FlatCollection.objects.get(collection_code=collection),
+                u'show_dates':False,
+                }
         return data_dict
     def build_response( format, callback ):
         if format == u'json':
@@ -104,6 +145,8 @@ def collection( request, collection ):
     log.debug( 'starting collection()' )
     start_time = datetime.datetime.now()
     data_dict = prepare_data()
+    if data_dict == {}:
+        return HttpResponseNotFound( '404 / Not Found' )
     # log.debug( 'data_dict (partial), ```{}```...'.format(pprint.pformat(data_dict))[0:1000] )
     log.debug( 'data_dict (partial), ```%s```...' % pprint.pformat(data_dict)[0:1000] )
     format = request.GET.get( u'format', None )
@@ -112,29 +155,6 @@ def collection( request, collection ):
     elapsed_time = unicode( datetime.datetime.now() - start_time )
     log.debug( 'elapsed time, ```%s```' % elapsed_time )
     return response
-
-
-# def display_inscription( request, inscription_id ):
-#     """ Displays inscription html from saxon-ce rendering of source xml and an include file of bib data,
-#       which is then run through an xsl transform. """
-#     log.debug( u'display_inscription() starting' )
-#     start_time = datetime.datetime.now()
-#     display_inscription_helper = DisplayInscriptionHelper()  # models.py
-#     source_xml_url = display_inscription_helper.build_source_xml_url(
-#         settings_app.DISPLAY_INSCRIPTION_XML_URL_PATTERN, request.is_secure(), request.get_host(), inscription_id )
-#     context = display_inscription_helper.build_context(
-#         request.get_host(),
-#         project_settings.STATIC_URL,
-#         inscription_id,
-#         source_xml_url,
-#         settings_app.DISPLAY_INSCRIPTION_XSL_URL,
-#         settings_app.DISPLAY_INSCRIPTION_SAXONCE_FILE_URL,
-#         settings_app.DISPLAY_INSCRIPTION_XIPR_URL )
-#     # log.debug( u'display_inscription() context, %s' % pprint.pformat(context) )
-#     log.debug( u'display_inscription() context (partial), ```%s```...' % pprint.pformat(context)[0:1000] )
-#     elapsed_time = unicode( datetime.datetime.now() - start_time )
-#     log.debug( 'elapsed time, ```%s```' % elapsed_time )
-#     return render( request, u'usep_templates/display_inscription.html', context )
 
 
 def display_inscription( request, inscription_id ):
