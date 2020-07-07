@@ -1,34 +1,11 @@
 {% extends "usep_templates/base.html" %}
+{% load staticfiles %}
 
-<!-- {% block head_title %}US Epigraphy — Inscription — {{ inscription_id }}{% endblock head_title %} -->
+{% block head_title %}US Epigraphy — Inscription — {{ inscription_id }}{% endblock head_title %}
 
 {% block in_page_css %}
-<style type="text/css">
-    .metadata {
-        float: left;
-        width: 300px;
-    }
-    .bibl {
-        float: left;
-        width: 900px;
-    }
-    .bibl p {
-        float: left;
-        width: 275px;
-    }
-    .facsimile {
-        position:absolute;
-        left: 662px;
-        top: 448px;
-        /*top: 1048px;*/
-    }
-    div p a {
-        float: left;
-    }
-</style>
-<!-- these are all from the scrollables website -->
-<!-- <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/scrollable-horizontal.css" /> -->
-<!-- <link rel="stylesheet" type="text/css" href="http://static.flowplayer.org/tools/css/scrollable-buttons.css" /> -->
+<!-- page-specific CSS -->
+<link href="{% static 'usep/css/inscription.css' %}"" rel="stylesheet" type="text/css" />
 {% endblock in_page_css %}
 
 {% block page_title %}Inscription: <span class="id_string">{{ inscription_id }}</span>{% endblock page_title %}
