@@ -1,0 +1,26 @@
+/*
+    Inscription-specific CSS, for, eg:
+    <https://library.brown.edu/projects/usep/inscription/CA.Berk.UC.HMA.L.8-2330/>
+*/
+
+.metadata {
+    float: left;
+    width: 300px;
+}
+.bibl {
+    float: left;
+    width: 900px;
+}
+.bibl p {
+    float: left;
+    width: 275px;
+}
+.facsimile {
+    position:absolute;
+    left: 662px;
+    top: 448px;
+    /*top: 1048px;*/
+}
+div p a {
+    float: left;
+}
