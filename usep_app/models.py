@@ -203,6 +203,7 @@ def separate_into_languages(docs):
         u"hbo": u"Hebrew",
         u"phn": u"Punic",
         u"arc": u"Aramaic",
+        u"ecy": u"Eteocypriot",
         u"und": u"Undecided",
         u"unknown": u"Unknown"
     }
