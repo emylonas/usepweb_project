@@ -742,7 +742,7 @@ class Vocab(object):
         u"ecy": u"Eteocypriot",
         u"und": u"Undecided",
         u"zxx": u"Non-linguistic",
-        u"unknown": u"Unknown"
+        u"unknown": u"Unknown",
         u"lat": u"Latin",
     }
 
