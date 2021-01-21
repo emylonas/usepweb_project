@@ -193,13 +193,17 @@ def separate_into_languages(docs):
 
     # Language value/display pairs as of 3/2016
     language_pairs = {
-        u"lat": u"Latin",
         u"grc": u"Greek",
+        u"lat": u"Latin",
         u"la": u"Latin",
         u"la-Grek": u"Latin written in Greek",
         u"lat-Grek":u"Latin written in Greek",
-        u"etr":u"Etruscan",
-        u"xrr":u"Raetic",
+        u"ett": u"Etruscan",
+        u"xrr": u"Raetic",
+        u"hbo": u"Hebrew",
+        u"phn": u"Punic",
+        u"arc": u"Aramaic",
+        u"ecy": u"Eteocypriot",
         u"und": u"Undecided",
         u"unknown": u"Unknown"
     }
@@ -765,4 +769,3 @@ class Vocab(object):
             return self.map[i]
         else:
             return i
-
