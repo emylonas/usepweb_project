@@ -205,6 +205,7 @@ def separate_into_languages(docs):
         u"arc": u"Aramaic",
         u"ecy": u"Eteocypriot",
         u"und": u"Undecided",
+        u"zxx": u"Non-linguistic",
         u"unknown": u"Unknown"
     }
 
@@ -728,15 +729,21 @@ class Vocab(object):
     }
 
     language_pairs = {
-        u"lat": u"Latin",
         u"grc": u"Greek",
+        u"lat": u"Latin",
         u"la": u"Latin",
         u"la-Grek": u"Latin written in Greek",
         u"lat-Grek":u"Latin written in Greek",
-        u"etr":u"Etruscan",
-        u"xrr":u"Raetic",
+        u"ett": u"Etruscan",
+        u"xrr": u"Raetic",
+        u"hbo": u"Hebrew",
+        u"phn": u"Punic",
+        u"arc": u"Aramaic",
+        u"ecy": u"Eteocypriot",
         u"und": u"Undecided",
+        u"zxx": u"Non-linguistic",
         u"unknown": u"Unknown"
+        u"lat": u"Latin",
     }
 
     others = {
