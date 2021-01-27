@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import json, logging, os, pprint
+from __future__ import unicode_literals
+
+import collections, json, logging, os, pprint
 from operator import itemgetter  # for a comparator sort
 
 import requests
@@ -191,23 +193,50 @@ def break_token(token):
 
 def separate_into_languages(docs):
 
-    # Language value/display pairs as of 3/2016
-    language_pairs = {
-        u"grc": u"Greek",
-        u"lat": u"Latin",
-        u"la": u"Latin",
-        u"la-Grek": u"Latin written in Greek",
-        u"lat-Grek":u"Latin written in Greek",
-        u"ett": u"Etruscan",
-        u"xrr": u"Raetic",
-        u"hbo": u"Hebrew",
-        u"phn": u"Punic",
-        u"arc": u"Aramaic",
-        u"ecy": u"Eteocypriot",
-        u"und": u"Undecided",
-        u"zxx": u"Non-linguistic",
-        u"unknown": u"Unknown"
-    }
+    ## Language value/display pairs as of January-2021
+
+    ## ordering the dict: <https://stackoverflow.com/questions/15711755/converting-dict-to-ordereddict>
+
+    # language_pairs = {
+    #     u"grc": u"Greek",
+    #     u"lat": u"Latin",
+    #     u"la": u"Latin",
+    #     u"la-Grek": u"Latin written in Greek",
+    #     u"lat-Grek":u"Latin written in Greek",
+    #     u"ett": u"Etruscan",
+    #     u"xrr": u"Raetic",
+    #     u"hbo": u"Hebrew",
+    #     u"phn": u"Punic",
+    #     u"arc": u"Aramaic",
+    #     u"ecy": u"Eteocypriot",
+    #     u"und": u"Undecided",
+    #     u"zxx": u"Non-linguistic",
+    #     u"unknown": u"Unknown"
+    # }
+
+    language_pairs = [
+        ('grc', 'Greek'),
+        ('lat', 'Latin'),
+        ('la', 'Latin'),
+        ('la-Grek', 'Latin written in Greek'),
+        ('lat-Grek','Latin written in Greek'),
+        ('arc', 'Aramaic'),
+        ('ecy', 'Eteocypriot'),
+        ('ett', 'Etruscan'),
+        ('hbo', 'Hebrew'),
+        ('phn', 'Punic'),
+        ('xrr', 'Raetic'),
+        ('zxx', 'Non-linguistic'),
+        ('und', 'Undecided'),
+        ('unknown', 'Unknown')
+    ]
+
+    language_pairs = collections.OrderedDict( language_pairs )
+    log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
+
+    # log.debug( 'lp iteritems, ``%s``' % language_pairs.iteritems() )
+    # for x in language_pairs.iteritems():
+    #     print( x )
 
     # result = {}
     # for doc in docs:
@@ -224,9 +253,11 @@ def separate_into_languages(docs):
             result[language][u'docs'] += [doc]
         else:
             result[language] = {u'docs': [doc], u'display': language_pairs.get(language, language)}
+    log.debug( 'language separation result, ``%s``' % pprint.pformat(result) )
 
     # Actual display pairs used for convenience
     d = dict([(lang, language_pairs.get(lang, lang)) for lang in result])
+    log.debug( 'd dict, ``%s``' % pprint.pformat(d) )
 
     return (result, len(docs), d)
 
@@ -234,7 +265,8 @@ class Collection(object):
     """ Handles code to display the inscriptions list for a given collection. """
 
     def get_solr_data( self, collection ):
-        """ Queries solr for collection info. """
+        """ Queries solr for collection info.
+            Called by views.collection() """
         log.debug( 'starting Collection.get_solr_data()' )
         payload = {
             u'q': u"id:{0}*".format(collection),
@@ -251,7 +283,8 @@ class Collection(object):
         return sorted_doc_list
 
     def enhance_solr_data( self, solr_data, url_scheme, server_name ):
-        """ Adds to dict entries from solr: image-url and item-url. """
+        """ Adds to dict entries from solr: image-url and item-url.
+            Called by views.collection() """
         log.debug( 'starting Collection.enhance_solr_data()' )
         enhanced_list = []
         for entry in solr_data:
@@ -261,7 +294,10 @@ class Collection(object):
             entry[u'image_url'] = image_url
             entry[u'url'] = u'%s://%s%s' % ( url_scheme, server_name, reverse(u'inscription_url', args=(entry[u'id'],)) )
             enhanced_list.append( entry )
-        return separate_into_languages(enhanced_list)
+        separated = separate_into_languages( enhanced_list )
+        log.debug( 'type(separated), ``%s``' % type(separated) )
+        log.debug( 'HEREZZ' )
+        return separated
 
     # end class Collection()
 
