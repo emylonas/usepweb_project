@@ -230,21 +230,10 @@ def separate_into_languages(docs):
         ('und', 'Undecided'),
         ('unknown', 'Unknown')
     ]
-
     language_pairs = collections.OrderedDict( language_pairs_list )
     log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
 
-    # log.debug( 'lp iteritems, ``%s``' % language_pairs.iteritems() )
-    # for x in language_pairs.iteritems():
-    #     print( x )
-
-    # result = {}
-    # for doc in docs:
-    #     if doc[u'language'] in result:  # 2016-02-09: when doc['language'] is a list, result is `TypeError -- unhashable type: 'list'`
-    #         result[doc[u'language']][u'docs'] += [doc]
-    #     else:
-    #         result[doc[u'language']] = {u'docs': [doc], u'display': language_pairs.get(doc[u'language'], doc[u"language"])}
-
+    ## create result-dict -- TODO: since I need an ordered-dict, change this to create the list of tuples to avoid the re-work of the dict.
     result = {}
     for doc in docs:
         language = doc.get('language', u'')
@@ -255,31 +244,37 @@ def separate_into_languages(docs):
             result[language] = {u'docs': [doc], u'display': language_pairs.get(language, language)}
     log.debug( 'language separation result, ``%s``' % result )
     log.debug( 'type(result), ``%s``' % type(result) )
+    log.debug( 'result.keys(), ``%s``' % result.keys() )
 
-    ## convert dict to ordered-dict
+    ## convert result-dict to ordered-dict
     desired_order_keys = []
     for language_tuple in language_pairs_list:
         language_code = language_tuple[0]
         desired_order_keys.append( language_code )
-    # intermediate_tuples = [ (key, result[key]) for key in desired_order_keys ]
-    intermediate_tuples = [ (key, result.get(key, None)) for key in desired_order_keys ]
-
-    new_result = collections.OrderedDict( intermediate_tuples )
+    result_intermediate_tuples = [ (key, result.get(key, None)) for key in desired_order_keys ]
+    log.debug( 'result_intermediate_tuples, ``%s``' % pprint.pformat(result_intermediate_tuples) )
+    new_result = collections.OrderedDict( result_intermediate_tuples )
     log.debug( 'language separation new_result, ``%s``' % new_result )
     log.debug( 'type(new_result), ``%s``' % type(new_result) )
+    log.debug( 'new_result.keys(), ``%s``' % new_result.keys() )
 
-
-
-# order_of_keys = ["key1", "key2", "key3", "key4", "key5"]
-# list_of_tuples = [(key, your_dict[key]) for key in order_of_keys]
-# your_dict = OrderedDict(list_of_tuples)
-
-    ## Actual display pairs used for convenience
-    d = dict([(lang, language_pairs.get(lang, lang)) for lang in result])
-    log.debug( 'd dict, ``%s``' % pprint.pformat(d) )
+    ## Actual display pairs used for convenience -- TODO: since we need an ordered-dict, build that directly.
+    # d = dict([(lang, language_pairs.get(lang, lang)) for lang in result])
+    # log.debug( 'd dict, ``%s``' % pprint.pformat(d) )
+    # log.debug( 'type(d), ``%s``' % type(d) )
+    display_pairs_intermediate_tuples = []
+    for item in new_result.iteritems():
+        ( language_code, data ) = ( item[0], item[1] )
+        if data != None:
+            display_text = data['display']
+            display_pairs_intermediate_tuples.append( (language_code, display_text) )
+    log.debug( 'display_pairs_intermediate_tuples, ``%s``' % display_pairs_intermediate_tuples )
+    display_pairs = collections.OrderedDict( display_pairs_intermediate_tuples )
 
     # return (result, len(docs), d)
-    return (new_result, len(docs), d)
+    # return (new_result, len(docs), d)
+    return (new_result, len(docs), display_pairs)
+
 
 class Collection(object):
     """ Handles code to display the inscriptions list for a given collection. """
