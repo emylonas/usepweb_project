@@ -214,7 +214,7 @@ def separate_into_languages(docs):
     #     u"unknown": u"Unknown"
     # }
 
-    language_pairs = [
+    language_pairs_list = [
         ('grc', 'Greek'),
         ('lat', 'Latin'),
         ('la', 'Latin'),
@@ -231,7 +231,7 @@ def separate_into_languages(docs):
         ('unknown', 'Unknown')
     ]
 
-    language_pairs = collections.OrderedDict( language_pairs )
+    language_pairs = collections.OrderedDict( language_pairs_list )
     log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
 
     # log.debug( 'lp iteritems, ``%s``' % language_pairs.iteritems() )
@@ -253,13 +253,33 @@ def separate_into_languages(docs):
             result[language][u'docs'] += [doc]
         else:
             result[language] = {u'docs': [doc], u'display': language_pairs.get(language, language)}
-    log.debug( 'language separation result, ``%s``' % pprint.pformat(result) )
+    log.debug( 'language separation result, ``%s``' % result )
+    log.debug( 'type(result), ``%s``' % type(result) )
 
-    # Actual display pairs used for convenience
+    ## convert dict to ordered-dict
+    desired_order_keys = []
+    for language_tuple in language_pairs_list:
+        language_code = language_tuple[0]
+        desired_order_keys.append( language_code )
+    # intermediate_tuples = [ (key, result[key]) for key in desired_order_keys ]
+    intermediate_tuples = [ (key, result.get(key, None)) for key in desired_order_keys ]
+
+    new_result = collections.OrderedDict( intermediate_tuples )
+    log.debug( 'language separation new_result, ``%s``' % new_result )
+    log.debug( 'type(new_result), ``%s``' % type(new_result) )
+
+
+
+# order_of_keys = ["key1", "key2", "key3", "key4", "key5"]
+# list_of_tuples = [(key, your_dict[key]) for key in order_of_keys]
+# your_dict = OrderedDict(list_of_tuples)
+
+    ## Actual display pairs used for convenience
     d = dict([(lang, language_pairs.get(lang, lang)) for lang in result])
     log.debug( 'd dict, ``%s``' % pprint.pformat(d) )
 
-    return (result, len(docs), d)
+    # return (result, len(docs), d)
+    return (new_result, len(docs), d)
 
 class Collection(object):
     """ Handles code to display the inscriptions list for a given collection. """
@@ -295,6 +315,7 @@ class Collection(object):
             entry[u'url'] = u'%s://%s%s' % ( url_scheme, server_name, reverse(u'inscription_url', args=(entry[u'id'],)) )
             enhanced_list.append( entry )
         separated = separate_into_languages( enhanced_list )
+        # log.debug(  )
         log.debug( 'type(separated), ``%s``' % type(separated) )
         log.debug( 'HEREZZ' )
         return separated
