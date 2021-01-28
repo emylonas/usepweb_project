@@ -193,6 +193,8 @@ def break_token(token):
 
 def separate_into_languages(docs):
 
+    # log.debug( 'docs, ``%s``' % pprint.pformat(docs) )
+
     ## Language value/display pairs as of January-2021
 
     ## ordering the dict: <https://stackoverflow.com/questions/15711755/converting-dict-to-ordereddict>
@@ -231,7 +233,7 @@ def separate_into_languages(docs):
         ('unknown', 'Unknown')
     ]
     language_pairs = collections.OrderedDict( language_pairs_list )
-    log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
+    # log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
 
     ## create result-dict -- TODO: since I need an ordered-dict, change this to create the list of tuples to avoid the re-work of the dict.
     result = {}
@@ -242,9 +244,9 @@ def separate_into_languages(docs):
             result[language][u'docs'] += [doc]
         else:
             result[language] = {u'docs': [doc], u'display': language_pairs.get(language, language)}
-    log.debug( 'language separation result, ``%s``' % result )
-    log.debug( 'type(result), ``%s``' % type(result) )
-    log.debug( 'result.keys(), ``%s``' % result.keys() )
+    # log.debug( 'language separation result, ``%s``' % result )
+    # log.debug( 'type(result), ``%s``' % type(result) )
+    # log.debug( 'result.keys(), ``%s``' % result.keys() )
 
     ## convert result-dict to ordered-dict
     desired_order_keys = []
@@ -252,27 +254,23 @@ def separate_into_languages(docs):
         language_code = language_tuple[0]
         desired_order_keys.append( language_code )
     result_intermediate_tuples = [ (key, result.get(key, None)) for key in desired_order_keys ]
-    log.debug( 'result_intermediate_tuples, ``%s``' % pprint.pformat(result_intermediate_tuples) )
+    # log.debug( 'result_intermediate_tuples, ``%s``' % pprint.pformat(result_intermediate_tuples) )
     new_result = collections.OrderedDict( result_intermediate_tuples )
-    log.debug( 'language separation new_result, ``%s``' % new_result )
-    log.debug( 'type(new_result), ``%s``' % type(new_result) )
-    log.debug( 'new_result.keys(), ``%s``' % new_result.keys() )
+    # log.debug( 'language separation new_result, ``%s``' % new_result )
+    # log.debug( 'type(new_result), ``%s``' % type(new_result) )
+    # log.debug( 'new_result.keys(), ``%s``' % new_result.keys() )
 
-    ## Actual display pairs used for convenience -- TODO: since we need an ordered-dict, build that directly.
-    # d = dict([(lang, language_pairs.get(lang, lang)) for lang in result])
-    # log.debug( 'd dict, ``%s``' % pprint.pformat(d) )
-    # log.debug( 'type(d), ``%s``' % type(d) )
+    ## Actual display pairs used for convenience
     display_pairs_intermediate_tuples = []
     for item in new_result.iteritems():
         ( language_code, data ) = ( item[0], item[1] )
         if data != None:
             display_text = data['display']
             display_pairs_intermediate_tuples.append( (language_code, display_text) )
-    log.debug( 'display_pairs_intermediate_tuples, ``%s``' % display_pairs_intermediate_tuples )
+    # log.debug( 'display_pairs_intermediate_tuples, ``%s``' % display_pairs_intermediate_tuples )
     display_pairs = collections.OrderedDict( display_pairs_intermediate_tuples )
 
-    # return (result, len(docs), d)
-    # return (new_result, len(docs), d)
+    log.debug( 'returning three-element tuple of (dict, int, dict)' )
     return (new_result, len(docs), display_pairs)
 
 
@@ -310,9 +308,7 @@ class Collection(object):
             entry[u'url'] = u'%s://%s%s' % ( url_scheme, server_name, reverse(u'inscription_url', args=(entry[u'id'],)) )
             enhanced_list.append( entry )
         separated = separate_into_languages( enhanced_list )
-        # log.debug(  )
         log.debug( 'type(separated), ``%s``' % type(separated) )
-        log.debug( 'HEREZZ' )
         return separated
 
     # end class Collection()
