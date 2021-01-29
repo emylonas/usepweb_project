@@ -41,7 +41,7 @@ def error_check( request ):
 
 def collections( request ):
   """Displays list of collections by Region."""
-  log.debug( 'starting collections()' )
+  log.debug( '\n\nstarting collections()' )
   start_time = datetime.datetime.now()
   ## helpers ##
   def prepare_data():
@@ -122,11 +122,13 @@ def collections( request ):
 
 def collection( request, collection ):
     """Displays list of inscriptions for given collection."""
+    log.debug( '\n\nstarting collection(); collection, ``%s``' % collection )
     ## helpers ##
     def prepare_data():
         log.debug( 'starting collection->prepare_data()' )
         c = models.Collection()
-        solr_data = c.get_solr_data( collection )
+        solr_data = c.get_solr_data( collection )  ## list
+        log.debug( 'type(solr_data), ``%s``' % type(solr_data) )
         data_dict = 'init'
         if solr_data == []:
             log.debug( 'solr_data empty; setting data_dict to {}' )
@@ -140,6 +142,10 @@ def collection( request, collection ):
         if data_dict == 'init':
             log.debug( 'data_dict looks good' )
             inscription_dict, num, display_dict = c.enhance_solr_data( solr_data, request.META[u'wsgi.url_scheme'], request.get_host() )
+            # log.debug( 'inscription_dict, ``%s``' % pprint.pformat(inscription_dict) )
+            # log.debug( 'display_dict, ``%s``' % pprint.pformat(display_dict) )
+            log.debug( 'type(inscription_dict), ``%s``' % type(inscription_dict) )
+            log.debug( 'type(display_dict), ``%s``' % type(display_dict) )
             data_dict = {
                 u'collection_title': collection,
                 u'inscriptions': inscription_dict,
@@ -158,9 +164,9 @@ def collection( request, collection ):
         else:
             return render( request, u'usep_templates/collectioN.html', data_dict )
     ## work ##
-    log.debug( 'starting collection(); collection, ``%s``' % collection )
     start_time = datetime.datetime.now()
     data_dict = prepare_data()
+    log.debug( 'type(data_dict), ``%s``' % type(data_dict) )
     if data_dict == {}:
         return HttpResponseNotFound( '404 / Not Found' )
     # log.debug( 'data_dict (partial), ```{}```...'.format(pprint.pformat(data_dict))[0:1000] )
