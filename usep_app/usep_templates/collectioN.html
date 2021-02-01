@@ -1,10 +1,12 @@
 {% extends "usep_templates/base.html" %}
+{% load staticfiles %}
 
 {% load vocab %}
 
 {% block head_title %}US Epigraphy — {{ collection_title }} Collection{% endblock head_title %}
 
-{% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %}
+{# {% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %} #}
+{% block head_media_href %}href="{% static 'usep/css/style.css'%}"{% endblock head_media_href %}
 
 {% block page_title %}Inscriptions from <span class="id_string">{{ collection_title }}</span>{% endblock page_title %}
 
