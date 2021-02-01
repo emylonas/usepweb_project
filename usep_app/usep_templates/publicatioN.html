@@ -1,11 +1,12 @@
 {% extends "usep_templates/base.html" %}
+{% load staticfiles %}
 
 {% load vocab %}
 
 {% block head_title %}US Epigraphy — publication: {{ publication_title }}{% endblock head_title %}
 
-{% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %}
-
+<!-- {# {% block head_media_href %}href="{{ STATIC_URL }}usep/css/style.css"{% endblock head_media_href %} #} -->
+{% block head_media_href %}href="{% static 'usep/css/style.css'%}"{% endblock head_media_href %}
 
 {% block page_title %}Inscriptions published in: <br />{{ publication_title }}{% endblock page_title %}
 
@@ -19,7 +20,8 @@
             {% if member.image_url %}
             <img class="thumb" src="{{ member.image_url }}" alt="inscription_thumbnail" width="40" height="40"></img>
             {% else %}
-            <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img>
+            <!-- {# <img class="thumb" src="{{ STATIC_URL }}usep/images/NoImageAvailable.jpg" alt="inscription_thumbnail" width="40" height="40"></img> #} -->
+            <img class="thumb" href="{% static 'usep/images/NoImageAvailable.jpg'%}" alt="inscription_thumbnail" width="40" height="40"></img>
             {% endif %}
             <a href="{{ member.url }}">{{ member.id }} </a>
             <span class="status">({{ member.status }})</span>
