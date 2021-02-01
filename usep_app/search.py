@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+## TODO: merge into views.py
+
 from __future__ import unicode_literals
 
 import datetime, json, logging, pprint
