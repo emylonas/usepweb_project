@@ -1,28 +1,20 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-"""
-Django settings for django_template_project.
-
-Environmental variables triggered in project's env_usepweb/bin/activate, when using runserver,
-  or env_usepweb/bin/activate_this.py, when using apache via passenger.
-"""
 
 import json, logging, os
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+## Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname( os.path.dirname(os.path.abspath(__file__)) )  # path to the project (no end-slash)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+## SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['USEPWEB__SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = json.loads( os.environ['USEPWEB__DEBUG_JSON'] )  # "true" or "false" to True or False
-TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_DEBUG = DEBUG
 
 ADMINS = json.loads( os.environ['USEPWEB__ADMINS_JSON'] )
 MANAGERS = ADMINS
@@ -89,8 +81,23 @@ STATICFILES_DIRS = json.loads( os.environ['USEPWEB__STATICFILES_DIRS_JSON'] )
 
 # Templates
 
-TEMPLATE_DIRS = json.loads( os.environ['USEPWEB__TEMPLATE_DIRS'] )  # list
-
+# TEMPLATE_DIRS = json.loads( os.environ['USEPWEB__TEMPLATE_DIRS'] )  # list  ## from Django-1.9.x
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [ '%s/usep_app' % BASE_DIR ],
+        # 'DIRS': TEMPLATE_DIRS,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 # Email
 EMAIL_HOST = os.environ['USEPWEB__EMAIL_HOST']
