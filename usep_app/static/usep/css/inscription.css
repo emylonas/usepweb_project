@@ -5,8 +5,9 @@
 
 .metadata {
     float: left;
-    width: 300px;
+    width: 750px;
 }
+
 .bibl {
     float: left;
     width: 900px;
@@ -24,3 +25,15 @@
 div p a {
     float: left;
 }
+
+/* The Epidoc stylesheets render the section headings as <h2>, we render them as <h3>, so adding 
+ * appropriate css to make them all look the same. */
+ 
+ #translation h2, #commentary h2 {
+    font-size:1.2em;
+	color:#4b7975;
+	text-transform:uppercase;
+	font-family:georgia,palatino,serif;
+	font-weight:normal;
+	letter-spacing:0.15em;
+ }
