@@ -194,6 +194,8 @@ def separate_into_languages(docs):
     # Language value/display pairs as of 3/2016
     language_pairs = {
         u"grc": u"Greek",
+        u"grc-Latn": u"Greek written in Roman characters",
+        u"grc-Cprt": u"Greek written in Cypriot",
         u"lat": u"Latin",
         u"la": u"Latin",
         u"la-Grek": u"Latin written in Greek",
@@ -730,6 +732,8 @@ class Vocab(object):
 
     language_pairs = {
         u"grc": u"Greek",
+        u"grc-Latn": u"Greek written in Roman characters",
+        u"grc-Cprt": u"Greek written in Cypriot",
         u"lat": u"Latin",
         u"la": u"Latin",
         u"la-Grek": u"Latin written in Greek",
