@@ -218,6 +218,8 @@ def separate_into_languages(docs):
 
     language_pairs_list = [
         ('grc', 'Greek'),
+        ('grc-Latn', 'Greek written in Latin'),
+        ('grc-Cprt', 'Greek written in Cypriot'),
         ('lat', 'Latin'),
         ('la', 'Latin'),
         ('la-Grek', 'Latin written in Greek'),
