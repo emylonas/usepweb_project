@@ -236,6 +236,7 @@ def separate_into_languages(docs):
     # log.debug( 'language_pairs, ``%s``' % pprint.pformat(language_pairs) )
 
     ## create result-dict -- TODO: since I need an ordered-dict, change this to create the list of tuples to avoid the re-work of the dict.
+
     result = {}
     for doc in docs:
         language = doc.get('language', u'')
@@ -778,6 +779,8 @@ class Vocab(object):
 
     language_pairs = {
         u"grc": u"Greek",
+        u"grc-Latn": u"Greek written in Roman characters",
+        u"grc-Cprt": u"Greek written in Cypriot",
         u"lat": u"Latin",
         u"la": u"Latin",
         u"la-Grek": u"Latin written in Greek",
